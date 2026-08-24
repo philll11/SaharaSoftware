@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- GitHub Pages cannot set response headers, so the policy ships in the markup.
+       X-Frame-Options, nosniff and HSTS have no meta equivalent and are absent by
+       necessity - docs/hosting.md records why that is acceptable here. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-51d3iEAo1RbLLvB4+x6WU/TLCdjoZFCwKPazT8DUjgA='; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://sahara-contact.WORKERS-SUBDOMAIN.workers.dev; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Sahara Software — Independent software studio, New Zealand</title>
+  <meta name="description"
+    content="Sahara Software is an independent New Zealand software studio. We design, build and operate Postify — an AI-native social media management platform.">
+  <link rel="canonical" href="https://www.saharasoftware.co.nz/">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Sahara Software">
+  <meta property="og:title" content="Sahara Software — Independent software studio, New Zealand">
+  <meta property="og:description" content="The studio behind Postify, an AI-native social media management platform.">
+  <meta property="og:url" content="https://www.saharasoftware.co.nz/">
+  <meta property="og:image" content="https://www.saharasoftware.co.nz/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+  <script src="/theme-init.js"></script>
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Sahara Software",
+    "url": "https://www.saharasoftware.co.nz/",
+    "logo": "https://www.saharasoftware.co.nz/assets/og-image.png",
+    "email": "info@saharasoftware.co.nz",
+    "address": { "@type": "PostalAddress", "addressCountry": "NZ" }
+  }
+  </script>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo-chip" href="/" aria-label="Sahara Software — home">
+        <img src="/assets/logo-full.png" alt="Sahara Software" height="34">
+      </a>
+      <button class="nav-burger" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" aria-hidden="true">
+          <path d="M4 7h16"></path>
+          <path d="M4 12h16"></path>
+          <path d="M4 17h16"></path>
+        </svg>
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <a href="/#postify">Postify</a>
+        <a href="/#studio">The studio</a>
+        <a href="/#contact">Contact</a>
+        <div class="theme-toggle" role="group" aria-label="Colour theme">
+          <button type="button" data-theme-choice="light" aria-label="Light theme">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v3"></path>
+              <path d="M12 19v3"></path>
+              <path d="M2 12h3"></path>
+              <path d="M19 12h3"></path>
+              <path d="M4.9 4.9l2.1 2.1"></path>
+              <path d="M17 17l2.1 2.1"></path>
+              <path d="M19.1 4.9L17 7"></path>
+              <path d="M7 17l-2.1 2.1"></path>
+            </svg>
+          </button>
+          <button type="button" data-theme-choice="dark" aria-label="Dark theme">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"></path>
+            </svg>
+          </button>
+          <button type="button" data-theme-choice="system" aria-label="Follow system theme">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="13" rx="2"></rect>
+              <path d="M9 21h6"></path>
+              <path d="M12 17v4"></path>
+            </svg>
+          </button>
+        </div>
+        <a class="btn btn-primary nav-cta" href="/#contact">Get in touch</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="hero">
+      <div class="container hero-inner">
+        <p class="eyebrow">Independent software studio</p>
+        <h1>Purpose-built software from Aotearoa New Zealand.</h1>
+        <p class="lead">Sahara Software designs, builds and operates <strong>Postify</strong> — an AI-native social
+          media management platform that takes a client's idea from brief to published post on every channel they run.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="/#postify">Explore Postify</a>
+          <a class="link-underline" href="/#contact">Contact us</a>
+        </div>
+      </div>
+      <svg class="dunes" viewBox="0 0 1440 210" preserveAspectRatio="none" aria-hidden="true">
+        <path class="dune-1"
+          d="M0,120 C220,60 420,150 640,130 C880,108 1040,40 1240,80 C1320,96 1390,108 1440,104 L1440,210 L0,210 Z">
+        </path>
+        <path class="dune-2" d="M0,168 C240,120 460,186 720,162 C960,140 1180,110 1440,150 L1440,210 L0,210 Z"></path>
+        <path class="dune-3" d="M0,210 C280,176 620,206 900,192 C1140,180 1330,186 1440,198 L1440,210 Z"></path>
+      </svg>
+    </section>
+
+    <section class="section" id="postify">
+      <div class="container flow-lg">
+        <div class="section-head">
+          <p class="eyebrow">Our product</p>
+          <h2>Postify</h2>
+          <p class="lead">Plan, approve and publish social content for every client and every location — with a
+            brand-aware AI agent that can take an idea all the way to channel-tailored, scheduled posts.</p>
+        </div>
+
+        <figure class="product-figure">
+          <div class="product-window" aria-hidden="true">
+            <div class="window-bar">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              <span class="window-title">Postify — Content calendar</span>
+              <span class="window-spacer"></span>
+            </div>
+            <div class="window-body">
+              <div class="app-sidebar">
+                <div class="app-brand">Postify</div>
+                <div class="client-switcher">
+                  <span>Pedal Power</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7E93A8" stroke-width="2.4"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 9l6 6 6-6"></path>
+                  </svg>
+                </div>
+                <div class="app-nav">
+                  <div class="app-nav-item active">Calendar</div>
+                  <div class="app-nav-item">Posts</div>
+                  <div class="app-nav-item">Brand</div>
+                  <div class="app-nav-item">Agent</div>
+                  <div class="app-nav-item">Clients</div>
+                  <div class="app-nav-item">Settings</div>
+                </div>
+              </div>
+              <div class="app-main">
+                <div class="agent-strip">
+                  <div class="agent-prompt">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)"
+                      stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 5l1.5 3.5L17 10l-3.5 1.5L12 15l-1.5-3.5L7 10l3.5-1.5z"></path>
+                      <path d="M18.5 15.5l0.8 1.7 1.7 0.8-1.7 0.8-0.8 1.7-0.8-1.7-1.7-0.8 1.7-0.8z"></path>
+                    </svg>
+                    <p><strong>Ask the agent:</strong> "Draft a spring tune-up campaign — a joint post for both stores,
+                      plus a Taradale-only kids' bike angle, scheduled next week."</p>
+                  </div>
+                  <div class="agent-chips">
+                    <span>Read brand profile</span>
+                    <span>Created 2 posts · 3 variants</span>
+                    <span>Scheduled — see calendar</span>
+                  </div>
+                </div>
+                <div class="app-cal-head">
+                  <div class="app-month">October 2026</div>
+                  <div class="app-new-post">New post</div>
+                </div>
+                <div class="cal-weekdays">
+                  <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+                </div>
+                <div class="cal-grid">
+                  <div class="cal-cell dim"><span class="cal-n">28</span></div>
+                  <div class="cal-cell dim"><span class="cal-n">29</span></div>
+                  <div class="cal-cell dim"><span class="cal-n">30</span></div>
+                  <div class="cal-cell"><span class="cal-n">1</span></div>
+                  <div class="cal-cell"><span class="cal-n">2</span></div>
+                  <div class="cal-cell"><span class="cal-n">3</span></div>
+                  <div class="cal-cell"><span class="cal-n">4</span></div>
+                  <div class="cal-cell"><span class="cal-n">5</span></div>
+                  <div class="cal-cell"><span class="cal-n">6</span><span class="chip chip-teal">FB · Tar</span><span
+                      class="chip chip-orange">FB · Has</span></div>
+                  <div class="cal-cell"><span class="cal-n">7</span></div>
+                  <div class="cal-cell"><span class="cal-n">8</span><span class="chip chip-orange">IG · Has</span></div>
+                  <div class="cal-cell"><span class="cal-n">9</span></div>
+                  <div class="cal-cell"><span class="cal-n">10</span></div>
+                  <div class="cal-cell"><span class="cal-n">11</span></div>
+                  <div class="cal-cell"><span class="cal-n">12</span></div>
+                  <div class="cal-cell"><span class="cal-n">13</span><span class="chip chip-navy">LI · Tar</span></div>
+                  <div class="cal-cell"><span class="cal-n">14</span></div>
+                  <div class="cal-cell"><span class="cal-n">15</span></div>
+                  <div class="cal-cell"><span class="cal-n">16</span><span class="chip chip-teal">IG · Tar</span></div>
+                  <div class="cal-cell"><span class="cal-n">17</span></div>
+                  <div class="cal-cell"><span class="cal-n">18</span></div>
+                  <div class="cal-cell"><span class="cal-n">19</span></div>
+                  <div class="cal-cell"><span class="cal-n">20</span><span class="chip chip-draft">Agent draft</span>
+                  </div>
+                  <div class="cal-cell"><span class="cal-n">21</span></div>
+                  <div class="cal-cell"><span class="cal-n">22</span></div>
+                  <div class="cal-cell"><span class="cal-n">23</span></div>
+                  <div class="cal-cell"><span class="cal-n">24</span></div>
+                  <div class="cal-cell"><span class="cal-n">25</span></div>
+                  <div class="cal-cell"><span class="cal-n">26</span></div>
+                  <div class="cal-cell"><span class="cal-n">27</span><span class="chip chip-orange">FB · Has</span>
+                  </div>
+                  <div class="cal-cell"><span class="cal-n">28</span></div>
+                  <div class="cal-cell"><span class="cal-n">29</span></div>
+                  <div class="cal-cell"><span class="cal-n">30</span></div>
+                  <div class="cal-cell"><span class="cal-n">31</span></div>
+                  <div class="cal-cell dim"><span class="cal-n">1</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="agent-card" aria-hidden="true">
+            <div class="agent-card-head">
+              <span class="agent-card-brand">Postify</span>
+              <span class="agent-card-context">Agent — Pedal Power</span>
+            </div>
+            <div class="agent-card-body">
+              <div class="bubble bubble-user">Draft a spring tune-up campaign — joint post for both stores, plus a
+                Taradale-only kids' bike angle, scheduled next week.</div>
+              <div class="agent-chips">
+                <span>Read brand profile</span>
+                <span>Created 2 posts · 3 variants</span>
+                <span>Scheduled Tue 9:00</span>
+              </div>
+              <div class="bubble bubble-agent">Done — a joint post for Taradale and Hastings, plus a kids' clinic angle
+                for Taradale only. Both are in next week's calendar as drafts for review.</div>
+            </div>
+          </div>
+
+          <figcaption>From one agent prompt to scheduled, channel-tagged drafts — one post, one variant per channel,
+            tagged by store when a client has more than one.</figcaption>
+        </figure>
+
+        <div class="feature-grid">
+          <article class="feature-card">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--icon)" stroke-width="1.7"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="16" rx="2"></rect>
+              <path d="M3 10h18"></path>
+              <path d="M8 3v4"></path>
+              <path d="M16 3v4"></path>
+            </svg>
+            <h3>Content calendar</h3>
+            <p>A month grid per client. One post carries a variant per channel, each with a native-style preview and its
+              platform's character limits.</p>
+          </article>
+          <article class="feature-card">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--icon)" stroke-width="1.7"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="9"></circle>
+              <path d="M8 12.5l2.6 2.6L16.5 9.5"></path>
+            </svg>
+            <h3>Approval workflow</h3>
+            <p>Contributors draft and propose, approvers sign off — never on their own work. Editing approved content
+              sends it back for review.</p>
+          </article>
+          <article class="feature-card">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--icon)" stroke-width="1.7"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H4l1.7-3.4A8.5 8.5 0 1 1 21 11.5z"></path>
+              <path d="M12 7.5l1 2.3 2.3 1-2.3 1-1 2.3-1-2.3-2.3-1 2.3-1z"></path>
+            </svg>
+            <h3>Brand-aware AI agent</h3>
+            <p>A Claude-powered agent that knows each client's brand profile, identities and channels, and drafts
+              channel-tailored, scheduled content from a chat window.</p>
+          </article>
+          <article class="feature-card">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--icon)" stroke-width="1.7"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 3L10 14"></path>
+              <path d="M21 3l-7 18-4-7-7-4z"></path>
+            </svg>
+            <h3>Native publishing</h3>
+            <p>Channels connect over each platform's own OAuth — Facebook Pages, Instagram, LinkedIn, TikTok. Scheduled
+              variants publish through the official APIs, and failures are reported honestly, with a retry.</p>
+          </article>
+          <article class="feature-card">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--icon)" stroke-width="1.7"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3l9 5-9 5-9-5z"></path>
+              <path d="M3 13.5l9 5 9-5"></path>
+              <path d="M3 17.5l9 5 9-5"></path>
+            </svg>
+            <h3>Multi-client by design</h3>
+            <p>Workspaces hold clients; clients hold brand profiles, identities and channels. Roles are scoped —
+              workspace, client or location — with deny-by-default access.</p>
+          </article>
+          <article class="feature-card">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--icon)" stroke-width="1.7"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3l7 3v5c0 4.5-3 7.9-7 9-4-1.1-7-4.5-7-9V6z"></path>
+              <path d="M9.5 11.5l2 2 3.5-3.5"></path>
+            </svg>
+            <h3>Security first</h3>
+            <p>Invitation-only accounts, two-factor authentication, encrypted platform tokens, account lockout and a
+              full authentication event log.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="studio">
+      <div class="container studio-grid">
+        <div class="flow">
+          <p class="eyebrow">The studio</p>
+          <h2>One pair of hands, end to end.</h2>
+          <p>Sahara Software is a sole-trader studio owned and operated by Leonard Phillips. One person carries each
+            product from design to code to the server it runs on — so quality, security and accountability never change
+            hands.</p>
+          <p>Postify runs as a hosted service for our clients. Every platform connection goes through the network's
+            official developer APIs, under their developer terms and data policies.</p>
+        </div>
+        <div class="facts-card">
+          <span class="facts-mark"><img src="/assets/icon.png" alt="" height="48"></span>
+          <dl>
+            <div class="facts-row">
+              <dt>Trading name</dt>
+              <dd>Sahara Software</dd>
+            </div>
+            <div class="facts-row">
+              <dt>Structure</dt>
+              <dd>Sole trader — New Zealand</dd>
+            </div>
+            <div class="facts-row">
+              <dt>Based in</dt>
+              <dd>Hawkes Bay, New Zealand</dd>
+            </div>
+            <div class="facts-row">
+              <dt>Email</dt>
+              <dd><a href="mailto:info@saharasoftware.co.nz">info@saharasoftware.co.nz</a></dd>
+            </div>
+            <div class="facts-row">
+              <dt>Web</dt>
+              <dd>www.saharasoftware.co.nz</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container contact-inner">
+        <h2>Get in touch</h2>
+        <p class="lead">Questions about Postify, a platform review, or working together? Send a message — it comes
+          straight to me, and I answer every one myself.</p>
+        <noscript>
+          <p class="form-status error">This form needs JavaScript. Please email
+            <a href="mailto:info@saharasoftware.co.nz">info@saharasoftware.co.nz</a> instead.</p>
+        </noscript>
+        <!-- No action attribute: main.js relays the message to the contact Worker.
+             CSP form-action 'none' stops a scriptless submit going anywhere. -->
+        <form class="contact-form" id="contact-form" novalidate>
+          <div class="form-grid">
+            <div class="field">
+              <label for="cf-name">Name</label>
+              <input id="cf-name" name="name" type="text" autocomplete="name" required maxlength="200">
+            </div>
+            <div class="field">
+              <label for="cf-email">Email</label>
+              <input id="cf-email" name="email" type="email" autocomplete="email" required maxlength="320">
+            </div>
+          </div>
+          <div class="field">
+            <label for="cf-message">Message</label>
+            <textarea id="cf-message" name="message" rows="5" required maxlength="5000"></textarea>
+          </div>
+          <div class="field-hp" aria-hidden="true">
+            <label for="cf-website">Website</label>
+            <input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off">
+          </div>
+          <button class="btn btn-primary" type="submit">Send message</button>
+          <p class="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="mark-chip"><img src="/assets/icon.png" alt="" height="30"></span>
+          <span class="footer-name">Sahara Software</span>
+        </div>
+        <p class="footer-tagline">Independent software studio — Aotearoa New Zealand.</p>
+        <nav class="footer-cols" aria-label="Footer">
+          <div>
+            <h4>Product</h4>
+            <a href="/#postify">Postify</a>
+          </div>
+          <div>
+            <h4>Company</h4>
+            <a href="/#studio">The studio</a>
+            <a href="/#contact">Contact</a>
+          </div>
+          <div>
+            <h4>Legal</h4>
+            <a href="/privacy">Privacy Policy</a>
+            <a href="/terms">Terms of Use</a>
+          </div>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Sahara Software</span>
+        <span>www.saharasoftware.co.nz</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/main.js" defer></script>
+</body>
+
+</html>

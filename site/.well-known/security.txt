@@ -1,0 +1,7 @@
+# Sahara Software — https://www.saharasoftware.co.nz
+# Renew Expires before the date below or scanners will treat this file as stale.
+
+Contact: mailto:info@saharasoftware.co.nz
+Expires: 2027-08-24T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://www.saharasoftware.co.nz/.well-known/security.txt

@@ -1,0 +1,53 @@
+# Publishes site/ to GitHub Pages.
+#
+# Actions are pinned to commit SHAs, not tags: a tag can be moved to point at
+# different code, and these actions hold a token that can deploy the site.
+
+name: Deploy website
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - "tools/check-csp.mjs"
+      - ".github/workflows/deploy-pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# A cancelled Pages deployment can leave the site half-published, so queued runs
+# wait rather than replace each other.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # GitHub Pages cannot send a CSP header, so each page pins the hash of its
+      # own inline scripts. This fails the build when a hash goes stale.
+      - name: Check pinned CSP hashes
+        run: node tools/check-csp.mjs
+
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0

@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- GitHub Pages cannot set response headers, so the policy ships in the markup.
+       X-Frame-Options, nosniff and HSTS have no meta equivalent and are absent by
+       necessity - docs/hosting.md records why that is acceptable here. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Data Deletion — Sahara Software</title>
+  <meta name="description"
+    content="How to delete your data from Postify, including data received from connected social media platforms.">
+  <link rel="canonical" href="https://www.saharasoftware.co.nz/data-deletion">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+  <script src="/theme-init.js"></script>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo-chip" href="/" aria-label="Sahara Software — home">
+        <img src="/assets/logo-full.png" alt="Sahara Software" height="34">
+      </a>
+      <button class="nav-burger" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" aria-hidden="true">
+          <path d="M4 7h16"></path>
+          <path d="M4 12h16"></path>
+          <path d="M4 17h16"></path>
+        </svg>
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <a href="/#postify">Postify</a>
+        <a href="/#studio">The studio</a>
+        <a href="/#contact">Contact</a>
+        <div class="theme-toggle" role="group" aria-label="Colour theme">
+          <button type="button" data-theme-choice="light" aria-label="Light theme">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v3"></path>
+              <path d="M12 19v3"></path>
+              <path d="M2 12h3"></path>
+              <path d="M19 12h3"></path>
+              <path d="M4.9 4.9l2.1 2.1"></path>
+              <path d="M17 17l2.1 2.1"></path>
+              <path d="M19.1 4.9L17 7"></path>
+              <path d="M7 17l-2.1 2.1"></path>
+            </svg>
+          </button>
+          <button type="button" data-theme-choice="dark" aria-label="Dark theme">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"></path>
+            </svg>
+          </button>
+          <button type="button" data-theme-choice="system" aria-label="Follow system theme">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="13" rx="2"></rect>
+              <path d="M9 21h6"></path>
+              <path d="M12 17v4"></path>
+            </svg>
+          </button>
+        </div>
+        <a class="btn btn-primary nav-cta" href="/#contact">Get in touch</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="legal-main">
+    <div class="container legal">
+      <h1>Data Deletion</h1>
+      <p class="updated">Last updated: 25 August 2026</p>
+
+      <p>This page explains how to delete the data Postify holds about you, including data received from a connected
+        social media platform (Facebook Pages, Instagram, LinkedIn or TikTok). It supplements our
+        <a href="/privacy">Privacy Policy</a>.</p>
+
+      <h2>What Postify stores from a connected platform</h2>
+      <p>When a client connects a social media account, Postify stores the access token issued by that platform
+        (encrypted), the identifiers and names of the pages or profiles it may publish to, and records of the posts it
+        has published on the client's behalf.</p>
+
+      <h2>Disconnect a channel in Postify</h2>
+      <p>Disconnecting a channel from a Postify workspace removes the stored access token, ending Postify's access to
+        that account. Content already published to the platform remains on the platform itself, under your control
+        there.</p>
+
+      <h2>Remove Postify's access from the platform</h2>
+      <p>You can also revoke Postify's access from the platform's own settings at any time; revocation immediately
+        invalidates the token Postify holds.</p>
+      <ul>
+        <li><strong>Facebook / Instagram.</strong> Go to <em>Settings &amp; privacy → Settings → Business
+            integrations</em>, find Postify and remove it.</li>
+        <li><strong>LinkedIn.</strong> Go to <em>Settings &amp; Privacy → Data privacy → Permitted services</em> and
+          remove Postify.</li>
+        <li><strong>TikTok.</strong> Go to <em>Settings and privacy → Security &amp; permissions → Apps and
+            services</em> and remove Postify.</li>
+      </ul>
+
+      <h2>Request full deletion</h2>
+      <p>To have your data deleted from Postify entirely — account information, content, and any data received from a
+        connected platform — email <a href="mailto:info@saharasoftware.co.nz">info@saharasoftware.co.nz</a> from the
+        email address associated with your account. We will action the request promptly and confirm by reply once
+        deletion is complete.</p>
+
+      <h2>Contact</h2>
+      <p>Sahara Software · Hawkes Bay, New Zealand · <a
+          href="mailto:info@saharasoftware.co.nz">info@saharasoftware.co.nz</a></p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom footer-bottom-only">
+        <span>© 2026 Sahara Software</span>
+        <span><a href="/">saharasoftware.co.nz</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/main.js" defer></script>
+</body>
+
+</html>

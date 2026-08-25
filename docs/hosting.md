@@ -7,10 +7,10 @@ Cloudflare Worker; everything else is static files.
 | | |
 |---|---|
 | Publishing source | GitHub Actions — [deploy-pages.yml](../.github/workflows/deploy-pages.yml) |
-| Custom domain | `www.saharasoftware.co.nz`, set in **Settings → Pages** |
+| Custom domain | `www.saharasoftware.co.nz`, set in **Settings → Pages**. The root `CNAME` file GitHub wrote when the domain was saved is inert here — the artifact contains only `site/` |
 | DNS | MyHost (`ns1`–`ns4.myhost.nz`). The zone stays there. |
 | Certificate | Let's Encrypt, issued and renewed by GitHub |
-| Contact relay | [contact-worker/](../contact-worker/) on Cloudflare Workers � `sahara-contact.saharasoftware.workers.dev` |
+| Contact relay | [contact-worker/](../contact-worker/) on Cloudflare Workers — `sahara-contact.saharasoftware.workers.dev` |
 
 The repository is public because GitHub Pages on the Free plan will not publish
 from a private one.

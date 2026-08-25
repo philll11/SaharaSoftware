@@ -58,7 +58,7 @@
   // relay is a Cloudflare Worker (see ../contact-worker/), which holds the
   // Resend key, rate-limits and checks Origin. Changing this URL means changing
   // connect-src in index.html's CSP to match, or the request is blocked.
-  var CONTACT_ENDPOINT = "https://sahara-contact.WORKERS-SUBDOMAIN.workers.dev/";
+  var CONTACT_ENDPOINT = "https://sahara-contact.saharasoftware.workers.dev/";
 
   var form = document.getElementById("contact-form");
   if (!form) return;

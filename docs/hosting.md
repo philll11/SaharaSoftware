@@ -10,7 +10,7 @@ Cloudflare Worker; everything else is static files.
 | Custom domain | `www.saharasoftware.co.nz`, set in **Settings → Pages** |
 | DNS | MyHost (`ns1`–`ns4.myhost.nz`). The zone stays there. |
 | Certificate | Let's Encrypt, issued and renewed by GitHub |
-| Contact relay | [contact-worker/](../contact-worker/) on Cloudflare Workers |
+| Contact relay | [contact-worker/](../contact-worker/) on Cloudflare Workers � `sahara-contact.saharasoftware.workers.dev` |
 
 The repository is public because GitHub Pages on the Free plan will not publish
 from a private one.
@@ -26,6 +26,18 @@ Records this site depends on:
 | CNAME | `www` | `philll11.github.io.` |
 | TXT | `_github-pages-challenge-philll11` | issued by GitHub — see below |
 | CAA | `@` | `0 issue "letsencrypt.org"` |
+
+The contact relay sends through Resend, which needs its own records. They carry
+mail, not the website, but deleting them silently breaks the contact form:
+
+| Type | Host | Value |
+|---|---|---|
+| TXT | `resend._domainkey` | Resend's DKIM key |
+| MX | `send` | `feedback-smtp.ap-northeast-1.amazonses.com`, priority 10 |
+| TXT | `send` | `v=spf1 include:amazonses.com ~all` |
+
+`send` is the bounce return-path only. The apex `SPF` and `MX` stay as they are;
+Resend's SPF belongs on `send` and must not be merged into the apex record.
 
 Mail is unrelated to any of the above and must not be touched: `MX` points at
 `mail.saharasoftware.co.nz`, which has its own `A` record at MyHost. Changing
@@ -59,6 +71,22 @@ Keep that record forever — removing it un-verifies the domain.
 
 If Pages is ever disabled here while DNS still points at GitHub, remove the DNS
 records too.
+
+## Contact relay
+
+The Worker runs in the Cloudflare account registered to
+`leonard@saharasoftware.co.nz`, under that account's `saharasoftware.workers.dev`
+subdomain. A workers.dev subdomain is claimed once per account and the API
+refuses to change it afterwards, so a different endpoint hostname means a
+different Cloudflare account.
+
+The endpoint is pinned in two places and they must change together, or the
+browser blocks the request before it is sent:
+
+- `CONTACT_ENDPOINT` in [site/main.js](../site/main.js)
+- `connect-src` in the CSP `<meta>` of [site/index.html](../site/index.html)
+
+`RESEND_API_KEY` is a Wrangler secret. Redeploying the Worker does not touch it.
 
 ## Certificates
 

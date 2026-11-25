@@ -124,12 +124,22 @@ const jsonLd = {
       </div>
       <ol class="principles">
         <li>
-          <h3>Give the AI something that can say no</h3>
+          <h3>Make the agent's world deterministic</h3>
           <p>
-            An agent does better work when a compiler, a schema or a test can reject it. With Fathom, the agent writes
-            a short spec instead of Boomi's XML, and a compiler rejects a mistake before it ever reaches Boomi.
+            Ask an agent the same thing twice and you can get two different answers, and every assumption it makes is
+            a chance to go wrong. So every AI tool I build leaves the agent as little as possible to guess: typed
+            formats, compilers, written conventions and tests that give the same answer every time.
           </p>
-          <a class="link-arrow evidence" href="/work/fathom">How Fathom does it</a>
+          <a class="link-arrow evidence" href="/work/fathom">How Fathom does it for Boomi</a>
+        </li>
+        <li>
+          <h3>Design with the developer, before anything is built</h3>
+          <p>
+            Most of an agent's costly mistakes begin as assumptions in the design. A visual design stage puts the
+            developer and the agent on the same picture first, so the developer shapes the result instead of
+            correcting it afterwards, and no tokens are spent building the wrong thing.
+          </p>
+          <a class="link-arrow evidence" href="/work/fathom#the-design-stage">Fathom's design stage</a>
         </li>
         <li>
           <h3>Test everything, and release only what was tested</h3>
@@ -146,15 +156,6 @@ const jsonLd = {
             to production waits for a person to confirm it.
           </p>
           <a class="link-arrow evidence" href="/work/fathom#plugin">How Fathom's hooks enforce it</a>
-        </li>
-        <li>
-          <h3>Teach the agent like a new colleague</h3>
-          <p>
-            Skills give an agent the knowledge a senior colleague would pass on, and the team's written conventions
-            keep its work consistent. Fathom's skills teach Boomi's concepts before its syntax, and its checks follow
-            the account's own handbook.
-          </p>
-          <a class="link-arrow evidence" href="/work/fathom#plugin">Inside the plugin</a>
         </li>
       </ol>
     </div>
@@ -176,7 +177,8 @@ const jsonLd = {
           <p>
             Claude Code and GitHub Copilot can be taught your platform. I build the plugins that do it: skills that
             carry your systems' knowledge and your team's rules, hooks that stop the agent where a person should
-            decide, subagents that review its work, and MCP servers that connect it to your tools.
+            decide, subagents that review its work, and MCP servers that connect it to your tools. Each is designed
+            to be as deterministic as possible, so the agent has little left to assume.
           </p>
         </article>
         <article class="service">

@@ -1,13 +1,14 @@
 ---
 name: Fathom
-title: Letting an AI agent build Boomi integrations without silent mistakes
-summary: Fathom is a plugin for Claude Code and GitHub Copilot CLI that lets an AI agent build Boomi integrations safely. The agent writes a short spec instead of Boomi's XML, a compiler catches its mistakes before they reach Boomi, and a person confirms anything that touches a live system.
-card: A plugin for Claude Code and GitHub Copilot CLI. The agent writes a short spec instead of Boomi's XML, a compiler catches its mistakes early, and a person confirms anything that touches a live system.
-description: Fathom is a plugin for Claude Code and GitHub Copilot CLI by Leonard Phillips that lets AI agents build Boomi integrations safely, with skills, hooks, a compiler, tests and a person at every step that cannot be undone.
+title: Opening up Boomi so an AI agent can understand it deterministically
+summary: Fathom is a plugin for Claude Code and GitHub Copilot CLI that turns Boomi into something an AI agent can read, write and check deterministically, with a visual design stage where the developer shapes the integration with the agent before anything is built. The less an agent has to assume, the fewer mistakes it makes and the fewer tokens it wastes.
+card: Opens Boomi up so an AI agent can understand it deterministically, with a visual design stage the developer shapes alongside the agent. Less to assume means fewer mistakes and fewer wasted tokens.
+description: Fathom is a plugin for Claude Code and GitHub Copilot CLI by Leonard Phillips that opens Boomi up so AI agents can understand it deterministically, with a visual design stage the developer shapes alongside the agent.
 order: 1
 status:
-  label: Version 0.58, in Claude Code and GitHub Copilot CLI
-  short: Version 0.58
+  label: Live at version 1.0, used by the client's integration developers
+  short: Live · version 1.0
+  live: true
   asOf: 2026-11-25
 role: Sole author. Independent project.
 stack: [Claude Code plugin, GitHub Copilot CLI, Agent skills, Hooks, MCP, Go, Boomi]
@@ -26,50 +27,67 @@ import processCanvas from "../../assets/work/fathom/process.png";
 
 ## The problem
 
-Boomi stores every integration as XML behind a graphical editor, and that is hard ground for an AI agent.
-Leave out certain attributes and the editor breaks.
-Invent one and the platform silently replaces it.
-Invent a reference and the whole component fails late, after the work looks finished.
-An LLM typing that XML directly produces work nobody can easily trust.
+Ask an AI agent the same thing twice and you can get two different answers.
+In an ordinary codebase that is manageable, because a compiler and tests catch the difference.
+Boomi gives an agent almost nothing to check against.
+Integrations are XML behind a graphical editor: leave out an attribute and the editor breaks, invent one and the platform silently replaces it, invent a reference and the whole component fails late, after the work looks finished.
+Every gap is a place where the agent has to assume, and assumptions are where mistakes happen and tokens are wasted.
 
-## What I built
+## The core idea: make Boomi deterministic for the agent
 
-Fathom lets an agent work inside Boomi the way it works inside an ordinary software project, with source files, a compiler and tests.
+The most important decision in building any AI tool or plugin is to make the agent's world as deterministic as possible, so there is little room left for assumption.
+Fathom does that for Boomi: it opens the platform up so an agent understands it the way it understands an ordinary software project.
 
-- **A spec instead of XML.** The agent describes an integration in a short YAML file that follows a published schema, and never edits Boomi's XML directly.
-- **A compiler that catches mistakes.** It turns the spec into Boomi's XML, covers all 25 kinds of process step, and rejects mistakes before anything reaches Boomi. Embedded Groovy and JavaScript are checked too.
-- **A preview before every change.** The agent shows exactly what will change in the account before it pushes, and a push either completes or rolls back.
-- **A person at every step that cannot be undone.** Reading, compiling and previewing run freely. Deploying or running anything on a live system waits for a person to confirm it.
+- **A spec instead of XML.** The agent describes an integration in a short YAML file that follows a published schema.
+- **A deterministic compiler.** The same spec always compiles to the same Boomi XML, across all 25 kinds of process step, and anything wrong is rejected before it reaches Boomi.
+- **The account as facts.** Existing processes decompile into the same typed specs, and an index of the account tells the agent what already exists, so it reuses components rather than guessing at them.
+- **The team's rules, written down.** A handbook holds the account's naming, folder and design conventions, and the checks apply them mechanically.
+- **The toolchain draws, never the model.** Pictures, layouts and generated components come from the toolchain, so they come out the same every time.
+- **A preview before every change.** The agent shows exactly what will change in the account before it pushes, and a person confirms anything that touches a live system.
 - **Tests tied to the version tested.** Processes are tested with fixtures on the platform, and a deploy is refused for a process without a test.
-- **The team's own rules.** A handbook in a shared repository holds the team's naming, folder and design conventions, and every check follows it.
-- **Design before build.** An interview settles every design question into a written design record before any spec exists, and a local preview draws the result in Boomi's own forms.
+
+## The design stage
+
+Most of an agent's costly mistakes start in the design: a requirement it assumed, a convention it did not know, a shape the developer pictured differently.
+Corrections after a build cost the most, because by then the agent has guessed and spent the tokens.
+Fathom's design stage puts the developer and the agent on the same picture before anything is built.
+
+- **An interview first.** The agent asks the design questions that matter and writes the answers into a design record, so requirements are settled rather than assumed.
+- **A visual preview in Boomi's own forms.** A local page draws the integration's landscape, every process on its canvas as Boomi's editor shows it, every map and the components in the folders they go to. It follows the files as the agent writes them.
+- **The developer shapes it.** On the landscape the developer adds and connects processes, queues and systems, or reuses ones the account already has. The processes are generated from that picture, and the developer then refines labels, names and folders and places the components. Each of these is a deterministic edit to the spec, with no agent in the loop.
+- **A conversation on the page.** The developer pins a remark to anything the page draws, the agent asks its questions on the element they concern, and one button hands everything back to the session.
+
+In effect, the developer builds the Boomi flow without having to build it in Boomi first.
+They stay engaged in the design instead of reviewing a finished build, and the agent has far less to assume.
+What the preview draws is what Boomi's editor shows after the push: one layout feeds both, and a test holds them equal.
+
+<figure>
+  <Shot light={processCanvas} alt="The design preview's canvas for the scheduled process: start, a try and catch, setting the run's date range, sending to the queue, and a notify step on the catch path." title="A process on its canvas" sizes="(max-width: 760px) 100vw, 720px" />
+  <figcaption>Each process is drawn on its canvas before it exists in Boomi, exactly as Boomi's editor will show it after the push.</figcaption>
+</figure>
 
 ## How it works
 
 <Flow
-  label="How Fathom takes an integration from a prompt to the platform"
+  label="How Fathom takes an integration from a conversation to the platform"
   steps={[
-    { title: "Design interview", body: "Questions settle the design into a written record." },
-    { title: "Spec", body: "The agent describes the integration in YAML." },
+    { title: "Design interview", body: "The questions that matter, answered in a design record." },
+    { title: "Shape the design", body: "The developer shapes the landscape and processes on the preview." },
+    { title: "Generate", body: "The toolchain turns the design into typed specs." },
     { title: "Compile", body: "Mistakes are rejected before Boomi sees them." },
-    { title: "Preview", body: "Every change is shown before it is made." },
-    { title: "Push", body: "Deploys and runs wait for a person.", gate: true },
+    { title: "Push", body: "Every change is previewed, and deploys wait for a person.", gate: true },
     { title: "Test", body: "Results are kept against the version tested." },
   ]}
 />
 
-<figure>
-  <Shot light={processCanvas} alt="The design preview's canvas for the scheduled process: start, a try and catch, setting the run's date range, sending to the queue, and a notify step on the catch path." title="A process on its canvas" sizes="(max-width: 760px) 100vw, 720px" />
-  <figcaption>The preview draws each process on its canvas, as Boomi's editor will show it after the push.</figcaption>
-</figure>
-
 <h2 id="plugin">Built as a plugin</h2>
 
-Fathom shapes what the agent knows, what it may do and when it must stop, through the parts an agent plugin is made of.
+Fathom shapes what the agent knows, what it may do and when it must stop, through the parts an agent plugin is made of, each designed to leave the agent as little as possible to assume.
 
 - **Thirteen skills** carry the knowledge: Boomi's concepts and component formats, the team's handbook, the design interview, testing, promotion between environments, and bringing changes made in Boomi's editor back into the spec.
 - **Hooks** act on every move the agent makes. A gate reads each shell command and file write before it runs and holds anything that would change a live system until a person confirms it. Each spec is validated the moment the agent saves it, and each session opens with the Boomi account and handbook the agent is working with.
 - **A review subagent** reads a finished spec against its design record on its own and reports every mismatch, without editing anything.
+- **Output written for agents.** Every command keeps its output short and puts the next step first, so a session never misses what a step needs.
 - **A language server and an MCP server** give editors live diagnostics and connect agent hosts that have no shell.
 - **One plugin, two hosts.** The same skills and toolchain run in Claude Code and GitHub Copilot CLI, with an adapter for each host's hooks and permissions.
 
@@ -81,10 +99,11 @@ It reached a working toolchain in weeks of development, not months.
 
 ## Where it stands
 
-Fathom is at version 0.58, proven in sandboxes and in read-only work on a large client account.
+Fathom is at version 1.0 and live.
+Developers on the integration team at a large European construction company use it for their integration work, in Claude Code and GitHub Copilot CLI.
 
 ## What this means for you
 
-The approach carries well beyond Boomi: an AI agent does better work when something can tell it no, and when it is taught your platform the way a new colleague would be.
-I can build a plugin like this for the platform your team works on, with skills for your systems and rules, and hooks that keep a person in charge of anything that cannot be undone.
+The principle behind Fathom applies to any AI tool or plugin: make the agent's world as deterministic as possible, and bring people into the design where judgement is needed.
+I can build a plugin like this for the platform your team works on, with skills for your systems and rules, a design stage your developers shape, and hooks that keep a person in charge of anything that cannot be undone.
 If your team runs on Boomi, I can set Fathom up on your account.

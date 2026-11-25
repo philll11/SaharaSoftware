@@ -40,8 +40,10 @@ const jobs: Job[] = [
     summary:
       "Seconded to a large European construction company from January 2024, working with Boomi, Solace, Azure API Management, Salesforce and ServiceNow.",
     points: [
-      "Designed a RESTful API in Azure API Management that gave third-party applications controlled access to residential construction data that security policy barred them from reaching directly.",
+      "Designed RESTful APIs with OpenAPI v3 in Azure API Management, secured with OAuth 2.0 and backed by Boomi, that gave third-party applications controlled access to residential construction data that security policy barred them from reaching directly.",
+      "Designed a JSON-RPC 2.0 API with a Boomi backend, decoupled so that a new remote procedure needs no redeployment of the API or the backend.",
       "Designed an event-driven integration that carries ServiceNow changes to three other systems, with a routing layer that mimics Solace, so only that layer changes when Solace goes live.",
+      "Designed a decoupled logging framework in Boomi, so a logging failure never stops the business process it records.",
       "Became lead maintainer of the open-source Solace Queue Message Viewer, a Solace-managed repository, and demoed it as a guest speaker at the Solace Community lightning talks in January 2025.",
     ],
   },
@@ -67,7 +69,8 @@ const jobs: Job[] = [
         title: "Senior Engineer, ERP and Integration",
         when: "September 2021 to September 2022",
         points: [
-          "Connected Datacom's internal business systems with Boomi, customising NetSuite where an integration met its limits.",
+          "Connected Datacom's internal business systems with Boomi, through the Oracle HCM, NetSuite and Activate APIs, with pagination for large extracts and PGP encryption for sensitive data.",
+          "Customised NetSuite where an integration met its limits, with SuiteScript, workflows and saved searches.",
         ],
       },
     ],
@@ -89,13 +92,19 @@ const jobs: Job[] = [
     title: "NetSuite Technical Analyst",
     when: "October 2019 to January 2021",
     where: "Auckland, New Zealand",
-    points: ["Diagnosed NetSuite issues and turned stakeholder requirements and business constraints into solutions."],
+    points: [
+      "Built an automated billing schedule that invoices 2,500 customers at month-end.",
+      "Built an accounts-payable tool that sends payment files from NetSuite to a bank over SFTP.",
+      "Built a purchase requisition tool for Datacom's employees.",
+    ],
   },
 ];
 
-const certifications = [
+const certifications: { name: string; issuer: string; when?: string }[] = [
   { name: "Solutions Architect", issuer: "Solace", when: "October 2023" },
   { name: "Event Driven Architecture Practitioner", issuer: "Solace", when: "October 2023" },
+  { name: "Professional Integration Developer", issuer: "Boomi" },
+  { name: "Associate Integration Developer", issuer: "Boomi" },
   { name: "Professional API Design", issuer: "Boomi", when: "October 2023" },
   { name: "Professional API Management", issuer: "Boomi", when: "October 2023" },
   { name: "Associate Master Data Hub", issuer: "Boomi", when: "October 2023" },
@@ -103,6 +112,7 @@ const certifications = [
   { name: "SuiteAnalytics User", issuer: "NetSuite", when: "April 2022" },
   { name: "SuiteCloud Developer II", issuer: "NetSuite", when: "December 2021" },
   { name: "Certified Administrator", issuer: "NetSuite", when: "November 2021" },
+  { name: "SuiteFoundation", issuer: "NetSuite" },
   { name: "Professional Scrum Master I", issuer: "Scrum.org", when: "September 2025" },
 ];
 
@@ -110,9 +120,12 @@ const skills = [
   { group: "Building with AI", items: ["Claude Code", "GitHub Copilot", "Agent plugins and skills", "Hooks and subagents", "MCP servers", "Generative AI"] },
   {
     group: "Integration",
-    items: ["Boomi", "NetSuite", "Solace", "Event-driven architecture", "REST and SOAP APIs", "Azure API Management"],
+    items: ["Boomi", "NetSuite", "Oracle HCM", "Solace", "Event-driven architecture", "REST and SOAP APIs", "Azure API Management", "OAuth 2.0"],
   },
-  { group: "Languages and frameworks", items: ["TypeScript", "React", "NestJS", "Go", "Rust", "JavaScript", "PostgreSQL"] },
+  {
+    group: "Languages and frameworks",
+    items: ["TypeScript", "JavaScript", "Go", "Rust", "Python", "Groovy", "SuiteScript", "React", "NestJS", "PostgreSQL"],
+  },
   {
     group: "Cloud and delivery",
     items: ["Microsoft Azure", "Bicep", "Docker", "Kubernetes", "OpenTelemetry", "Grafana", "Azure DevOps", "GitHub Actions", "Test automation"],
@@ -202,13 +215,18 @@ const skills = [
           certifications.map((c) => (
             <li>
               <b>{c.name}</b>
-              <span>
-                {c.issuer} · {c.when}
-              </span>
+              <span>{c.when ? `${c.issuer} · ${c.when}` : c.issuer}</span>
             </li>
           ))
         }
       </ul>
+      <div class="section-head education-head">
+        <h2 id="education-title">Education</h2>
+      </div>
+      <div class="education">
+        <b>Bachelor of Information Science</b>
+        <span>Major in software engineering, minor in data science. Massey University, New Zealand.</span>
+      </div>
     </div>
   </section>
 

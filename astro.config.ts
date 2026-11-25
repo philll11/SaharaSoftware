@@ -39,6 +39,16 @@ export default defineConfig({
       fallbacks: ["sans-serif"],
     },
     {
+      // The hand-lettered notes on figures, like a checker's marks on a drawing.
+      provider: fontProviders.google(),
+      name: "Architects Daughter",
+      cssVariable: "--font-hand",
+      weights: [400],
+      styles: ["normal"],
+      subsets: ["latin"],
+      fallbacks: ["cursive"],
+    },
+    {
       provider: fontProviders.google(),
       name: "JetBrains Mono",
       cssVariable: "--font-mono",

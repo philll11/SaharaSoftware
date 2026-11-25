@@ -1,6 +1,7 @@
 ---
-// A screenshot in a plain window frame. With both a light and a dark capture,
-// the one matching the site's theme shows.
+// A screenshot in a frame: a plain application window by default, or a drawn
+// frame with corner marks (`drawn`), or none (`framed={false}`). With both a
+// light and a dark capture, the one matching the site's theme shows.
 import type { ImageMetadata } from "astro";
 import { Image } from "astro:assets";
 
@@ -12,16 +13,27 @@ interface Props {
   eager?: boolean;
   sizes?: string;
   framed?: boolean;
+  drawn?: boolean;
 }
 
-const { light, dark, alt, title, eager = false, sizes = "(max-width: 1160px) 100vw, 1100px", framed = true } = Astro.props;
+const {
+  light,
+  dark,
+  alt,
+  title,
+  eager = false,
+  sizes = "(max-width: 1160px) 100vw, 1100px",
+  framed = true,
+  drawn = false,
+} = Astro.props;
 const loading = eager ? "eager" : "lazy";
 const widths = [640, 960, 1280, 1920].filter((w) => w <= light.width);
+const windowFrame = framed && !drawn;
 ---
 
-<div class:list={[framed && "frame", "shot"]}>
+<div class:list={[windowFrame && "frame", drawn && "drawn shot-drawn", "shot"]}>
   {
-    framed && (
+    windowFrame && (
       <div class="frame-bar" aria-hidden="true">
         <i />
         <i />

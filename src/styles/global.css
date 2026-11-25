@@ -508,9 +508,10 @@ code, pre, kbd { font-family: var(--font-mono); }
 .about-side { display: flex; flex-direction: column; gap: 24px; }
 .about-photo {
   width: 100%;
+  max-width: 208px;
   aspect-ratio: 4 / 5;
   object-fit: cover;
-  border-radius: 18px;
+  border-radius: 14px;
 }
 .about-copy { display: flex; flex-direction: column; gap: 18px; }
 .about-copy p { font-size: 16.5px; line-height: 1.7; }
@@ -808,7 +809,6 @@ pre[class*="language-"], .prose pre {
   .section { padding: 60px 0; }
   .work-grid, .principles { grid-template-columns: minmax(0, 1fr); }
   .about-grid, .contact-inner { grid-template-columns: minmax(0, 1fr); gap: 32px; }
-  .about-photo { max-width: 320px; }
   .cert-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .footer-top { grid-template-columns: minmax(0, 1fr); }
   .footer-cols { grid-row: auto; grid-column: 1; gap: 40px; margin-top: 18px; flex-wrap: wrap; }

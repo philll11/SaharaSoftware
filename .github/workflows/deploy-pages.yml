@@ -1,27 +1,36 @@
-# Publishes site/ to GitHub Pages.
+# Builds and tests the website on every pull request, and publishes it to
+# GitHub Pages from main.
 #
 # Actions are pinned to commit SHAs, not tags: a tag can be moved to point at
 # different code, and these actions hold a token that can deploy the site.
 
-name: Deploy website
+name: Website
 
 on:
   push:
     branches: [main]
-    paths:
-      - "site/**"
-      - "tools/check-csp.mjs"
-      - ".github/workflows/deploy-pages.yml"
+    paths-ignore:
+      - "contact-worker/**"
+      - ".github/workflows/deploy-worker.yml"
+      - "docs/**"
+      - "*.md"
+  pull_request:
+    paths-ignore:
+      - "contact-worker/**"
+      - ".github/workflows/deploy-worker.yml"
+      - "docs/**"
+      - "*.md"
   workflow_dispatch:
 
 permissions:
   contents: read
 
 # A cancelled Pages deployment can leave the site half-published, so queued runs
-# wait rather than replace each other.
+# on main wait rather than replace each other. Pull request runs replace their
+# own earlier run.
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  group: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || 'pages' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build:
@@ -29,19 +38,49 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      # GitHub Pages cannot send a CSP header, so each page pins the hash of its
-      # own inline scripts. This fails the build when a hash goes stale.
-      - name: Check pinned CSP hashes
-        run: node tools/check-csp.mjs
+      # Reads the pnpm version from packageManager in package.json.
+      - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
 
-      # security.txt lives in site/.well-known/, and the action drops dot-directories
-      # unless include-hidden-files is set.
-      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          path: site
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Type-check
+        run: pnpm check
+
+      # Downloads the fonts named in astro.config.ts and writes the CSP meta tag,
+      # with the hash of every inline script and style, into each page.
+      - name: Build
+        run: pnpm build
+
+      - name: Install the test browser
+        run: pnpm exec playwright install --with-deps chromium
+
+      # Every page in both themes at desktop and phone widths: console errors
+      # (CSP violations among them), WCAG 2.2 AA checks, links and the form.
+      - name: Test the built site
+        run: pnpm test
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
+
+      # security.txt lives in public/.well-known/ and reaches dist/ with it; the
+      # action drops dot-directories unless include-hidden-files is set.
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        if: github.event_name != 'pull_request'
+        with:
+          path: dist
           include-hidden-files: true
 
   deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     permissions:

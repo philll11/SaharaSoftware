@@ -5,7 +5,7 @@
 // and relays. It stores nothing.
 //
 // Field caps and the honeypot behaviour here are load-bearing and should be
-// re-read together with the CSP in site/index.html whenever the form changes.
+// re-read together with src/components/ContactForm.astro whenever the form changes.
 
 const ALLOWED_ORIGIN = "https://www.saharasoftware.co.nz";
 const MAX_BODY_BYTES = 32 * 1024;
@@ -55,7 +55,7 @@ export default {
     const ip = request.headers.get("CF-Connecting-IP") || "unknown";
     const { success } = await env.CONTACT_LIMIT.limit({ key: ip });
     if (!success) {
-      return json(429, { ok: false, error: "Too many messages — please try again later." });
+      return json(429, { ok: false, error: "Too many messages. Please try again later." });
     }
 
     let data;

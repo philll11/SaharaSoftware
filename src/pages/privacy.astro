@@ -1,0 +1,83 @@
+---
+import Base from "../layouts/Base.astro";
+import { EMAIL } from "../config";
+---
+
+<Base
+  title="Privacy notice | Sahara Software"
+  description="How saharasoftware.co.nz handles personal information: what the contact form collects, who processes it and your rights under New Zealand's Privacy Act 2020."
+>
+  <section class="page-head">
+    <div class="container page-head-inner">
+      <p class="eyebrow">Privacy</p>
+      <h1>Privacy notice</h1>
+      <p class="lead">Last updated on 25 November 2026.</p>
+    </div>
+    <svg class="dunes" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+      <path class="dune-1" d="M0,70 C260,30 520,96 760,78 C1000,60 1200,30 1440,58 L1440,120 L0,120 Z"></path>
+      <path class="dune-3" d="M0,120 C300,92 640,114 920,104 C1160,96 1340,100 1440,108 L1440,120 Z"></path>
+    </svg>
+  </section>
+
+  <section class="section legal">
+    <div class="container">
+      <div class="prose">
+        <p>
+          This website belongs to Leonard Phillips, a sole trader in New Zealand trading as Sahara Software. This notice
+          explains what personal information the website collects and what happens to it, under New Zealand's Privacy
+          Act 2020.
+        </p>
+
+        <h2>What the website collects</h2>
+        <ul>
+          <li>
+            <strong>The contact form.</strong> If you send a message, the form collects your name, your email address and
+            what you write. I use them only to reply to you. I do not add you to a mailing list, and I never sell or share
+            your details.
+          </li>
+          <li>
+            <strong>Your theme choice.</strong> If you pick a light or dark theme, the choice is kept in your own browser's
+            storage and is never sent anywhere.
+          </li>
+        </ul>
+        <p>
+          The website sets no cookies and uses no analytics or advertising trackers. Its fonts and images are served from
+          the website itself, so reading a page sends nothing to anyone else.
+        </p>
+
+        <h2>Who processes it</h2>
+        <ul>
+          <li>
+            <strong>GitHub Pages</strong> serves the website. GitHub records visitors' IP addresses and request details
+            for the security of its own service. I do not receive those logs.
+          </li>
+          <li>
+            <strong>Cloudflare</strong> runs the small program that receives a contact-form message, checks it and limits
+            how often one address can send. It stores nothing.
+          </li>
+          <li>
+            <strong>Resend</strong> delivers the message to my mailbox, and processes your email address and message for
+            that purpose only.
+          </li>
+        </ul>
+        <p>These providers process information outside New Zealand.</p>
+
+        <h2>How long it is kept</h2>
+        <p>
+          I keep a message for as long as the conversation it starts is live, and longer only where New Zealand law
+          requires business records to be kept.
+        </p>
+
+        <h2>Your rights</h2>
+        <p>
+          You can ask to see the personal information I hold about you, to correct it, or to have it deleted. Email
+          <a href={`mailto:${EMAIL}`}>{EMAIL}</a> and I will reply promptly. If you are not satisfied with my answer, you
+          can complain to the <a href="https://www.privacy.org.nz/">Office of the Privacy Commissioner</a>.
+        </p>
+
+        <h2>Changes</h2>
+        <p>If this notice changes, the new version is published at this address with a new date.</p>
+      </div>
+    </div>
+  </section>
+</Base>

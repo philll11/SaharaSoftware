@@ -1,0 +1,98 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Shot from "../../components/Shot.astro";
+
+export async function getStaticPaths() {
+  const work = (await getCollection("work")).sort((a, b) => a.data.order - b.data.order);
+  return work.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: { entry, next: work[(i + 1) % work.length]! },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<"work">;
+  next: CollectionEntry<"work">;
+}
+
+const { entry, next } = Astro.props;
+const { name, title, summary, description, status, role, stack, links, shot, og } = entry.data;
+const { Content } = await render(entry);
+
+const asOf = status.asOf.toLocaleDateString("en-NZ", { day: "numeric", month: "long", year: "numeric", timeZone: "Pacific/Auckland" });
+---
+
+<Base title={`${name}: ${title} | Leonard Phillips`} description={description} ogImage={og} current="work">
+  <section class="page-head">
+    <div class="container page-head-inner">
+      <p class="breadcrumb"><a href="/#work">Work</a> / {name}</p>
+      <p class="eyebrow">{name}</p>
+      <h1>{title}</h1>
+      <p class="lead">{summary}</p>
+    </div>
+    <svg class="dunes" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+      <path class="dune-1" d="M0,70 C260,30 520,96 760,78 C1000,60 1200,30 1440,58 L1440,120 L0,120 Z"></path>
+      <path class="dune-3" d="M0,120 C300,92 640,114 920,104 C1160,96 1340,100 1440,108 L1440,120 Z"></path>
+    </svg>
+  </section>
+
+  <section class="section case-section">
+    <div class="container">
+      {
+        shot && (
+          <div class="case-media">
+            <Shot light={shot.light} dark={shot.dark} alt={shot.alt} title={shot.title} eager />
+          </div>
+        )
+      }
+      <div class:list={["case-layout", shot && "after-media"]}>
+        <article class="prose">
+          <Content />
+          <div class="case-next">
+            <div>
+              <span>Next case study</span>
+              <a class="link-arrow" href={`/work/${next.id}`}>{next.data.name}: {next.data.title}</a>
+            </div>
+            <a class="btn btn-primary" href="/#contact">Get in touch</a>
+          </div>
+        </article>
+        <aside class="case-panel" aria-label={`${name} at a glance`}>
+          <dl>
+            <div>
+              <dt>My role</dt>
+              <dd>{role}</dd>
+            </div>
+            <div>
+              <dt>Status</dt>
+              <dd>
+                {status.live ? <span class="badge badge-live">{status.label}</span> : status.label}
+                <span class="status-date">As of {asOf}</span>
+              </dd>
+            </div>
+            <div>
+              <dt>Built with</dt>
+              <dd>
+                <ul class="chips">
+                  {stack.map((s) => <li>{s}</li>)}
+                </ul>
+              </dd>
+            </div>
+            {
+              links.length > 0 && (
+                <div>
+                  <dt>Links</dt>
+                  <dd>
+                    <ul class="links">
+                      {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+                    </ul>
+                  </dd>
+                </div>
+              )
+            }
+          </dl>
+        </aside>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,15 @@
+---
+import { Image } from "astro:assets";
+import icon from "../assets/brand/icon.png";
+
+interface Props {
+  class?: string;
+  size?: number;
+}
+const { class: className = "brand", size = 46 } = Astro.props;
+---
+
+<a class={className} href="/" aria-label="Sahara Software, home">
+  <Image src={icon} alt="" width={size} densities={[1, 2]} loading="eager" />
+  <span class="wordmark" aria-hidden="true"><b>Sahara</b> <span>Software</span></span>
+</a>

@@ -1,0 +1,90 @@
+---
+name: Fathom
+title: Letting an AI agent build Boomi integrations without silent mistakes
+summary: Fathom is a plugin for Claude Code and GitHub Copilot CLI that lets an AI agent build Boomi integrations safely. The agent writes a short spec instead of Boomi's XML, a compiler catches its mistakes before they reach Boomi, and a person confirms anything that touches a live system.
+card: A plugin for Claude Code and GitHub Copilot CLI. The agent writes a short spec instead of Boomi's XML, a compiler catches its mistakes early, and a person confirms anything that touches a live system.
+description: Fathom is a plugin for Claude Code and GitHub Copilot CLI by Leonard Phillips that lets AI agents build Boomi integrations safely, with skills, hooks, a compiler, tests and a person at every step that cannot be undone.
+order: 1
+status:
+  label: Version 0.58, in Claude Code and GitHub Copilot CLI
+  short: Version 0.58
+  asOf: 2026-11-25
+role: Sole author. Independent project.
+stack: [Claude Code plugin, GitHub Copilot CLI, Agent skills, Hooks, MCP, Go, Boomi]
+shot:
+  light: ../../assets/work/fathom/landscape.png
+  alt: "Fathom's design preview drawing an order integration: a scheduled process hands orders to a queue, two listeners read it, and one writes to the ledger. Two findings from the account's handbook are marked."
+  title: Fathom design preview
+cardShot:
+  light: ../../assets/work/fathom/card.png
+og: /og/fathom.png
+---
+
+import Flow from "../../components/Flow.astro";
+import Shot from "../../components/Shot.astro";
+import processCanvas from "../../assets/work/fathom/process.png";
+
+## The problem
+
+Boomi stores every integration as XML behind a graphical editor, and that is hard ground for an AI agent.
+Leave out certain attributes and the editor breaks.
+Invent one and the platform silently replaces it.
+Invent a reference and the whole component fails late, after the work looks finished.
+An LLM typing that XML directly produces work nobody can easily trust.
+
+## What I built
+
+Fathom lets an agent work inside Boomi the way it works inside an ordinary software project, with source files, a compiler and tests.
+
+- **A spec instead of XML.** The agent describes an integration in a short YAML file that follows a published schema, and never edits Boomi's XML directly.
+- **A compiler that catches mistakes.** It turns the spec into Boomi's XML, covers all 25 kinds of process step, and rejects mistakes before anything reaches Boomi. Embedded Groovy and JavaScript are checked too.
+- **A preview before every change.** The agent shows exactly what will change in the account before it pushes, and a push either completes or rolls back.
+- **A person at every step that cannot be undone.** Reading, compiling and previewing run freely. Deploying or running anything on a live system waits for a person to confirm it.
+- **Tests tied to the version tested.** Processes are tested with fixtures on the platform, and a deploy is refused for a process without a test.
+- **The team's own rules.** A handbook in a shared repository holds the team's naming, folder and design conventions, and every check follows it.
+- **Design before build.** An interview settles every design question into a written design record before any spec exists, and a local preview draws the result in Boomi's own forms.
+
+## How it works
+
+<Flow
+  label="How Fathom takes an integration from a prompt to the platform"
+  steps={[
+    { title: "Design interview", body: "Questions settle the design into a written record." },
+    { title: "Spec", body: "The agent describes the integration in YAML." },
+    { title: "Compile", body: "Mistakes are rejected before Boomi sees them." },
+    { title: "Preview", body: "Every change is shown before it is made." },
+    { title: "Push", body: "Deploys and runs wait for a person.", gate: true },
+    { title: "Test", body: "Results are kept against the version tested." },
+  ]}
+/>
+
+<figure>
+  <Shot light={processCanvas} alt="The design preview's canvas for the scheduled process: start, a try and catch, setting the run's date range, sending to the queue, and a notify step on the catch path." title="A process on its canvas" sizes="(max-width: 760px) 100vw, 720px" />
+  <figcaption>The preview draws each process on its canvas, as Boomi's editor will show it after the push.</figcaption>
+</figure>
+
+<h2 id="plugin">Built as a plugin</h2>
+
+Fathom shapes what the agent knows, what it may do and when it must stop, through the parts an agent plugin is made of.
+
+- **Thirteen skills** carry the knowledge: Boomi's concepts and component formats, the team's handbook, the design interview, testing, promotion between environments, and bringing changes made in Boomi's editor back into the spec.
+- **Hooks** act on every move the agent makes. A gate reads each shell command and file write before it runs and holds anything that would change a live system until a person confirms it. Each spec is validated the moment the agent saves it, and each session opens with the Boomi account and handbook the agent is working with.
+- **A review subagent** reads a finished spec against its design record on its own and reports every mismatch, without editing anything.
+- **A language server and an MCP server** give editors live diagnostics and connect agent hosts that have no shell.
+- **One plugin, two hosts.** The same skills and toolchain run in Claude Code and GitHub Copilot CLI, with an adapter for each host's hooks and permissions.
+
+## How it was built
+
+I designed Fathom and made its decisions, and an LLM wrote much of the code inside the same rules Fathom enforces.
+The toolchain is one Go binary with about 380 test files, released by a pipeline for Linux, macOS and Windows, with a Rust port under way.
+It reached a working toolchain in weeks of development, not months.
+
+## Where it stands
+
+Fathom is at version 0.58, proven in sandboxes and in read-only work on a large client account.
+
+## What this means for you
+
+The approach carries well beyond Boomi: an AI agent does better work when something can tell it no, and when it is taught your platform the way a new colleague would be.
+I can build a plugin like this for the platform your team works on, with skills for your systems and rules, and hooks that keep a person in charge of anything that cannot be undone.
+If your team runs on Boomi, I can set Fathom up on your account.

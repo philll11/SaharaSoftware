@@ -1,0 +1,80 @@
+---
+import { EMAIL } from "../config";
+---
+
+<noscript>
+  <p class="form-status error">This form needs JavaScript. Please email <a href={`mailto:${EMAIL}`}>{EMAIL}</a> instead.</p>
+</noscript>
+<!-- No action attribute: the script relays the message to the contact Worker.
+     The CSP's form-action 'none' stops a scriptless submit going anywhere. -->
+<form class="contact-form" id="contact-form" novalidate data-email={EMAIL}>
+  <div class="form-grid">
+    <div class="field">
+      <label for="cf-name">Name</label>
+      <input id="cf-name" name="name" type="text" autocomplete="name" required maxlength="200" />
+    </div>
+    <div class="field">
+      <label for="cf-email">Email</label>
+      <input id="cf-email" name="email" type="email" autocomplete="email" required maxlength="320" />
+    </div>
+  </div>
+  <div class="field">
+    <label for="cf-message">Message</label>
+    <textarea id="cf-message" name="message" rows="6" required maxlength="5000"></textarea>
+  </div>
+  <div class="field-hp" aria-hidden="true">
+    <label for="cf-website">Website</label>
+    <input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+  <button class="btn btn-primary" type="submit">Send message</button>
+  <p class="form-status" role="status" aria-live="polite"></p>
+  <p class="form-note">Your message reaches me by email. The <a href="/privacy">privacy notice</a> says how it is handled.</p>
+</form>
+
+<script>
+  import { CONTACT_ENDPOINT } from "../config";
+
+  const form = document.querySelector<HTMLFormElement>("#contact-form");
+  if (form) {
+    const status = form.querySelector<HTMLElement>(".form-status")!;
+    const submit = form.querySelector<HTMLButtonElement>("button[type=submit]")!;
+    const email = form.dataset.email ?? "";
+    const field = (name: string) => (form.elements.namedItem(name) as HTMLInputElement).value;
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      status.textContent = "";
+      status.classList.remove("error");
+
+      const data = {
+        name: field("name").trim(),
+        email: field("email").trim(),
+        message: field("message").trim(),
+        website: field("website"),
+      };
+      if (!data.name || !data.message || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+        status.classList.add("error");
+        status.textContent = "Please fill in your name, a valid email address and a message.";
+        return;
+      }
+
+      submit.disabled = true;
+      submit.textContent = "Sending…";
+      try {
+        const res = await fetch(CONTACT_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+        if (!res.ok) throw new Error(`relay answered ${res.status}`);
+        form.querySelectorAll<HTMLElement>(".form-grid, .field, .form-note, button").forEach((el) => (el.hidden = true));
+        status.textContent = "Thank you, your message is on its way. I will reply to you by email.";
+      } catch {
+        status.classList.add("error");
+        status.textContent = `Sorry, the message could not be sent just now. Please email ${email} instead.`;
+        submit.disabled = false;
+        submit.textContent = "Send message";
+      }
+    });
+  }
+</script>

@@ -1,0 +1,35 @@
+---
+// A screenshot in a plain window frame. With both a light and a dark capture,
+// the one matching the site's theme shows.
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+
+interface Props {
+  light: ImageMetadata;
+  dark?: ImageMetadata | undefined;
+  alt: string;
+  title?: string | undefined;
+  eager?: boolean;
+  sizes?: string;
+  framed?: boolean;
+}
+
+const { light, dark, alt, title, eager = false, sizes = "(max-width: 1160px) 100vw, 1100px", framed = true } = Astro.props;
+const loading = eager ? "eager" : "lazy";
+const widths = [640, 960, 1280, 1920].filter((w) => w <= light.width);
+---
+
+<div class:list={[framed && "frame", "shot"]}>
+  {
+    framed && (
+      <div class="frame-bar" aria-hidden="true">
+        <i />
+        <i />
+        <i />
+        <span>{title}</span>
+      </div>
+    )
+  }
+  <Image src={light} alt={alt} widths={widths} sizes={sizes} loading={loading} class:list={[dark && "only-light"]} />
+  {dark && <Image src={dark} alt={alt} widths={widths} sizes={sizes} loading={loading} class="only-dark" />}
+</div>

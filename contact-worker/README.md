@@ -16,11 +16,8 @@ wrangler deploy                          # from this directory
 wrangler secret put RESEND_API_KEY       # send-only key from the Resend dashboard
 ```
 
-`wrangler deploy` prints the `*.workers.dev` URL. That URL has to appear in two
-places in the site or the form will not work:
-
-- `CONTACT_ENDPOINT` in [site/main.js](../site/main.js)
-- `connect-src` in the CSP `<meta>` of [site/index.html](../site/index.html)
+`wrangler deploy` prints the `*.workers.dev` URL.
+It goes in `CONTACT_ENDPOINT` in [src/config.ts](../src/config.ts), which feeds both the form and the CSP.
 
 ## Continuous deploy
 
@@ -44,4 +41,4 @@ wrangler rollback            # previous version
 projects that are not business-critical, and the free plan allows 100,000
 requests a day. Both are comfortable for a contact form. Moving the Worker onto
 a custom domain would require the zone to be served by Cloudflare, which the
-rest of this setup deliberately avoids — see [docs/hosting.md](../docs/hosting.md).
+rest of this setup deliberately avoids; see [docs/hosting.md](../docs/hosting.md).

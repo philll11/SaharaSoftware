@@ -1,0 +1,102 @@
+---
+import Brand from "./Brand.astro";
+
+interface Props {
+  current?: "work" | "services" | "method" | "experience" | undefined;
+}
+const { current } = Astro.props;
+
+const links = [
+  { key: "work", href: "/#work", label: "Work" },
+  { key: "services", href: "/#services", label: "Services" },
+  { key: "method", href: "/#how-i-work", label: "How I work" },
+  { key: "experience", href: "/experience", label: "Experience" },
+] as const;
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <Brand />
+    <button class="nav-burger" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M4 7h16"></path>
+        <path d="M4 12h16"></path>
+        <path d="M4 17h16"></path>
+      </svg>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Main">
+      {links.map((l) => <a href={l.href} aria-current={current === l.key ? "page" : undefined}>{l.label}</a>)}
+      <div class="theme-toggle" role="group" aria-label="Colour theme">
+        <button type="button" data-theme-choice="light" aria-label="Light theme" aria-pressed="false">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"></path>
+          </svg>
+        </button>
+        <button type="button" data-theme-choice="dark" aria-label="Dark theme" aria-pressed="false">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"></path>
+          </svg>
+        </button>
+        <button type="button" data-theme-choice="system" aria-label="Follow system theme" aria-pressed="false">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="13" rx="2"></rect>
+            <path d="M9 21h6M12 17v4"></path>
+          </svg>
+        </button>
+      </div>
+      <a class="btn btn-primary nav-cta" href="/#contact">Get in touch</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggles = document.querySelectorAll<HTMLButtonElement>("[data-theme-choice]");
+
+  function savedChoice(): string {
+    try {
+      const t = localStorage.getItem("theme");
+      return t === "light" || t === "dark" ? t : "system";
+    } catch {
+      return "system";
+    }
+  }
+
+  function apply(choice: string) {
+    if (choice === "light" || choice === "dark") {
+      document.documentElement.setAttribute("data-theme", choice);
+    } else {
+      document.documentElement.removeAttribute("data-theme");
+    }
+    try {
+      if (choice === "system") localStorage.removeItem("theme");
+      else localStorage.setItem("theme", choice);
+    } catch {
+      // A per-visitor convenience only; without storage the system theme applies.
+    }
+    toggles.forEach((btn) => btn.setAttribute("aria-pressed", String(btn.dataset.themeChoice === choice)));
+  }
+
+  toggles.forEach((btn) => btn.addEventListener("click", () => apply(btn.dataset.themeChoice ?? "system")));
+  apply(savedChoice());
+
+  const header = document.querySelector(".site-header");
+  const burger = document.querySelector<HTMLButtonElement>(".nav-burger");
+  if (header && burger) {
+    const close = () => {
+      header.classList.remove("nav-open");
+      burger.setAttribute("aria-expanded", "false");
+    };
+    burger.addEventListener("click", () => {
+      const open = header.classList.toggle("nav-open");
+      burger.setAttribute("aria-expanded", String(open));
+    });
+    document.querySelectorAll(".site-nav a").forEach((link) => link.addEventListener("click", close));
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && header.classList.contains("nav-open")) {
+        close();
+        burger.focus();
+      }
+    });
+  }
+</script>

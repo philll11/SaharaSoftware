@@ -35,6 +35,15 @@ const services = [
   },
 ];
 
+const facts = [
+  { label: "Experience", value: "Seven years in business systems and integration" },
+  { label: "Platforms", value: "Four years on Boomi, earlier work on NetSuite" },
+  { label: "Certifications", value: "Thirteen, across Boomi, NetSuite, Solace and Scrum" },
+  { label: "Worked at", value: "Datacom and Archant in New Zealand, Emixa in the Netherlands" },
+  { label: "Education", value: "Bachelor of Information Science in software engineering, Massey University" },
+  { label: "Trading as", value: "Sahara Software, since June 2026" },
+];
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -218,47 +227,44 @@ const jsonLd = {
   </section>
 
   <section class="section section-alt" id="about" aria-labelledby="about-title">
-    <div class="container about-grid">
-      <div class="about-side">
-        <Image
-          src={portrait}
-          alt="Leonard Phillips"
-          widths={[360, 540, 720]}
-          sizes="(max-width: 900px) 320px, 420px"
-          class="about-photo"
-        />
-        <div class="about-facts">
-          <h3>In short</h3>
-          <ul>
-            <li>Seven years in business systems and integration</li>
-            <li>Four years on Boomi, earlier work on NetSuite</li>
-            <li>Thirteen certifications across Boomi, NetSuite, Solace and Scrum</li>
-            <li>Datacom and Archant in New Zealand, Emixa in the Netherlands</li>
-            <li>Bachelor of Information Science in software engineering, Massey University</li>
-            <li>Trading as Sahara Software since June 2026</li>
-          </ul>
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-intro">
+          <p class="eyebrow">About</p>
+          <h2 id="about-title">Hi, I'm Leonard.</h2>
+          <div class="drawn about-portrait">
+            <Image src={portrait} alt="Leonard Phillips" widths={[208, 312, 416]} sizes="208px" class="about-photo" />
+          </div>
+        </div>
+        <div class="about-copy">
+          <p>
+            I started in business systems in New Zealand at Datacom and Archant, where I connected NetSuite to
+            Mainfreight's distribution platform, automated month-end billing for 2,500 customers and worked on
+            Peppol e-invoicing. I then spent two and a half years in the Netherlands as an integration consultant with
+            Emixa, seconded to a large European construction company, working with Boomi, Solace, Azure API Management,
+            Salesforce and ServiceNow.
+          </p>
+          <p>
+            Since June 2026 I have traded as Sahara Software, on contract to that same client, and built the platforms on
+            this page with AI doing much of the coding and my own design, checks and approval around it.
+          </p>
+          <p>
+            You can hire me for plugins and skills for AI coding agents, integration work, bespoke software, or setting up
+            AI workflows for your team. If you are hiring for a role, my experience is set out in full.
+          </p>
+          <p><a class="link-arrow" href="/experience">See my experience</a></p>
         </div>
       </div>
-      <div class="about-copy">
-        <p class="eyebrow">About</p>
-        <h2 id="about-title">Hi, I'm Leonard.</h2>
-        <p>
-          I started in business systems in New Zealand at Datacom and Archant, where I connected NetSuite to
-          Mainfreight's distribution platform, automated month-end billing for 2,500 customers and worked on
-          Peppol e-invoicing. I then spent two and a half years in the Netherlands as an integration consultant with
-          Emixa, seconded to a large European construction company, working with Boomi, Solace, Azure API Management,
-          Salesforce and ServiceNow.
-        </p>
-        <p>
-          Since June 2026 I have traded as Sahara Software, on contract to that same client, and built the platforms on
-          this page with AI doing much of the coding and my own design, checks and approval around it.
-        </p>
-        <p>
-          You can hire me for plugins and skills for AI coding agents, integration work, bespoke software, or setting up
-          AI workflows for your team. If you are hiring for a role, my experience is set out in full.
-        </p>
-        <p><a class="link-arrow" href="/experience">See my experience</a></p>
-      </div>
+      <dl class="about-facts" aria-label="In short">
+        {
+          facts.map((f) => (
+            <div>
+              <dt>{f.label}</dt>
+              <dd>{f.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
     </div>
   </section>
 

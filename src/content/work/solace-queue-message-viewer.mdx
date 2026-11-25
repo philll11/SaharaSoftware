@@ -1,0 +1,67 @@
+---
+name: Solace Queue Message Viewer
+title: Reading a Solace queue without consuming a message
+summary: An open-source Chrome extension that shows the payload and properties of queued messages inside the Solace broker's own web console, without taking them off the queue. I am the lead maintainer of this Solace-managed repository.
+card: A Chrome extension that shows queued messages inside the Solace broker's own console, without consuming them. I am the lead maintainer of this Solace-managed repository.
+description: Solace Queue Message Viewer, an open-source Chrome extension for the Solace PubSub+ Broker Manager. Leonard Phillips is the lead maintainer of this Solace-managed repository.
+order: 4
+status:
+  label: Version 2.4.2 on the Chrome Web Store, 81 users, rated 5.0
+  short: Open source · rated 5.0
+  asOf: 2026-11-25
+role: Lead maintainer of this Solace-managed repository on GitHub.
+stack: [JavaScript, Chrome Manifest V3, Solace JavaScript API, WebSockets, Web Crypto]
+links:
+  - label: Chrome Web Store
+    href: https://chromewebstore.google.com/detail/solace-queue-message-view/gkhcnbbnjobekckjeohmifkbcfdpincp
+  - label: Source on GitHub
+    href: https://github.com/solacecommunity/solace-queue-browser-extension
+  - label: My commits
+    href: https://github.com/solacecommunity/solace-queue-browser-extension/commits?author=philll11
+og: /og/solace.png
+---
+
+import Flow from "../../components/Flow.astro";
+
+## The problem
+
+Solace PubSub+ is an event broker: systems publish messages, and queues hold them until a consumer takes them.
+When an integration misbehaves, the first question is often "what is actually sitting on that queue?"
+The broker's web console lists queued messages but not what is in them, and consuming a message to read it changes the very thing you are investigating.
+
+## What it does
+
+The extension adds a **Find Messages** button to the console's Messages Queued tab.
+It browses the queue without consuming anything and shows each message's payload and user properties inline, with a button to copy them.
+
+<Flow
+  label="How the extension reads a queue"
+  steps={[
+    { title: "Broker console", body: "Find Messages appears on the queue's Messages Queued tab." },
+    { title: "Saved connection", body: "Matched to the broker you are on, decrypted with your key." },
+    { title: "Queue browser", body: "Reads over secure WebSockets and leaves every message in place." },
+    { title: "Inline view", body: "Payload and user properties, ready to copy." },
+  ]}
+/>
+
+## What I have built as lead maintainer
+
+The extension began in 2021 as a proof of concept by another Solace community member, in a repository that Solace manages.
+I joined in December 2023 and became its lead maintainer: I build its features, review and merge other people's changes, and publish each release to the Chrome Web Store.
+
+- **Connection manager.** Several saved connections, a connection test, automatic choice of the connection that matches the open broker, search, and JSON import and export that merges.
+- **Credentials kept safe.** Saved passwords are encrypted with AES-GCM through the browser's Web Crypto API, behind a key with strength rules. The key itself is never stored.
+- **Fewer permissions.** Access is limited to Solace Cloud and local broker addresses.
+- **Local and self-hosted brokers.** Support for brokers on localhost and your own servers, alongside Solace Cloud.
+- **Better viewing.** User properties, copy to clipboard, a fix for duplicated messages, and scrolling for large payloads.
+- **A rebuild for the store.** The code moved to shared ES modules with the Solace library in the service worker, and the manifest was brought in line with Chrome Web Store rules.
+
+## Where it stands
+
+Version 2.4.2 is on the Chrome Web Store, with 81 users and a 5.0 rating from three reviews.
+The repository has 15 stars and 6 forks.
+
+## What this means for you
+
+Event-driven integration is part of my day job, and I hold Solace's Solutions Architect and Event Driven Architecture Practitioner certifications.
+This project shows the other side of it: picking up someone else's open-source code, making it secure and dependable, and looking after it for the people who use it.

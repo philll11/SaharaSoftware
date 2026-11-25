@@ -1,0 +1,95 @@
+---
+name: Testify
+title: Automated regression testing for Boomi integrations
+summary: Testify is an automated regression testing platform for Boomi. It records which test proves each component, runs tests on the customer's own runtimes, and keeps every result against the exact revision it tested.
+card: An automated regression testing platform that records which test proves each component and keeps every result against the exact revision it tested.
+description: Testify, an automated regression testing platform for Boomi built by Leonard Phillips, live in production at a large European construction company.
+order: 2
+status:
+  label: Live in production
+  short: Live in production
+  live: true
+  asOf: 2026-11-25
+role: Sole developer, for a large European construction company.
+stack: [TypeScript, React, NestJS, BullMQ, PostgreSQL, Go, Azure, Bicep, Docker]
+og: /og/testify.png
+---
+
+import Layers from "../../components/Layers.astro";
+
+## The problem
+
+A large European construction company runs hundreds of business processes on Boomi, looked after by a small team of integration developers.
+Boomi's test mode is manual, and its logs are gone once you leave it.
+Boomi Assure is not built for a team's own regression testing.
+That left the team without a shared record of which tests prove which component, what last ran, on which revision, and who started it.
+Before changing an integration, a developer had no quick way to see what would prove the change worked.
+
+## What I built
+
+An automated regression testing platform, with a web app and a command line.
+
+- It reads the Boomi account into its own catalogue.
+- It records which test proves which component, so coverage is visible before a change, not after.
+- It runs tests on the customer's own runtimes, on demand or on a schedule.
+- It keeps every result against the exact revision tested, so "it passed" always says what passed.
+- Roles and an audit trail show who did what.
+
+## How it works
+
+<Layers
+  label="Testify's architecture"
+  layers={[
+    {
+      label: "People",
+      boxes: [
+        { title: "Web app", body: "React. The catalogue, coverage, runs and results." },
+        { title: "Command line", body: "Go. One self-contained binary for terminals and pipelines." },
+      ],
+    },
+    {
+      label: "Engine",
+      boxes: [{ title: "API", body: "NestJS. Roles, the audit trail, schedules and the Boomi client." }],
+    },
+    {
+      label: "Work",
+      boxes: [{ title: "Job queue and workers", body: "BullMQ and Redis. Reading the account and running tests, away from the request path." }],
+    },
+    {
+      label: "Record and platform",
+      boxes: [
+        { title: "PostgreSQL", body: "The catalogue, which test proves which component, and every result against its revision.", tone: "teal" },
+        { title: "Boomi", body: "The account it reads, and the customer's own runtimes the tests run on.", tone: "accent" },
+      ],
+    },
+    {
+      label: "Hosting",
+      boxes: [{ title: "Azure, defined in Bicep", body: "A test and a production environment. Production receives the exact image that ran in test." }],
+    },
+  ]}
+/>
+
+Running tests is not the hard part; a home-built harness can do that.
+The record around the tests is what a team was missing, and that is what Testify keeps.
+
+## How it was built
+
+I made the design decisions and an LLM wrote much of the code, over weeks of development work rather than months or years.
+The controls around that code are what make it fit for production:
+
+- every pull request runs automated checks that block the merge, across about 5,700 test cases in the code;
+- every commit is scanned for credentials before it is made, so a secret never reaches the server;
+- a person approves each release to production, and production receives the exact image that ran in test.
+
+Azure hosting for the test and production environments comes to an estimated EUR 230 a month.
+
+## Where it stands
+
+Testify is live in production at the client, used by its integration team.
+
+## What this means for you
+
+If you run on Boomi, I can bring this platform to your account.
+If you do not, the lesson still applies: for any integration your business depends on, you should be able to see what was tested, when, and against which version.
+
+The client and its data stay private, so this page shows the design rather than screenshots.

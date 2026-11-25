@@ -1,0 +1,21 @@
+---
+// A schematic for a work card that has no screenshot: labelled steps joined
+// by arrows, on the brand's sand ground.
+interface Props {
+  steps: string[];
+  label: string;
+}
+const { steps, label } = Astro.props;
+---
+
+<div class="art" role="img" aria-label={label}>
+  {
+    steps.map((s, i) => (
+      <>
+        {i > 0 && <span class="art-arrow" aria-hidden="true" />}
+        <span class:list={["art-step", i === steps.length - 1 && "art-last"]}>{s}</span>
+      </>
+    ))
+  }
+</div>
+

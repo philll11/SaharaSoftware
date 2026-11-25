@@ -1,0 +1,43 @@
+---
+import { getCollection } from "astro:content";
+import Brand from "./Brand.astro";
+import { GITHUB_URL, LINKEDIN_URL, EMAIL } from "../config";
+
+const work = (await getCollection("work")).sort((a, b) => a.data.order - b.data.order);
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <Brand class="brand footer-brand" size={42} />
+      <p class="footer-tagline">
+        AI agents, agent tooling and integrations, built and checked by Leonard Phillips in Aotearoa New Zealand.
+      </p>
+      <nav class="footer-cols" aria-label="Footer">
+        <div>
+          <h2>Work</h2>
+          {work.map((w) => <a href={`/work/${w.id}`}>{w.data.name}</a>)}
+        </div>
+        <div>
+          <h2>Site</h2>
+          <a href="/#services">Services</a>
+          <a href="/#how-i-work">How I work</a>
+          <a href="/experience">Experience</a>
+          <a href="/#contact">Contact</a>
+        </div>
+        <div>
+          <h2>Elsewhere</h2>
+          <a href={`mailto:${EMAIL}`}>Email</a>
+          <a href={LINKEDIN_URL}>LinkedIn</a>
+          <a href={GITHUB_URL}>GitHub</a>
+          <a href="/privacy">Privacy</a>
+        </div>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>© {year} Sahara Software · Leonard Phillips, sole trader</span>
+      <span>New Zealand</span>
+    </div>
+  </div>
+</footer>

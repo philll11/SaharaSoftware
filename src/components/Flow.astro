@@ -1,0 +1,32 @@
+---
+// A numbered sequence of steps in rows of up to four, joined by arrows within
+// a row; on narrow screens it stacks. A "gate" step marks where a person has
+// to confirm before the flow continues.
+export interface Step {
+  title: string;
+  body: string;
+  gate?: boolean;
+}
+
+interface Props {
+  steps: Step[];
+  label: string;
+}
+const { steps, label } = Astro.props;
+const columns = steps.length <= 4 ? steps.length : 3;
+---
+
+<ol class={`flow flow-cols-${columns}`} aria-label={label}>
+  {
+    steps.map((s, i) => (
+      <li class:list={["flow-step", s.gate && "flow-gate"]}>
+        <span class="flow-num">
+          {String(i + 1).padStart(2, "0")}
+          {s.gate && <span class="flow-tag">A person confirms</span>}
+        </span>
+        <b>{s.title}</b>
+        <span class="flow-body">{s.body}</span>
+      </li>
+    ))
+  }
+</ol>

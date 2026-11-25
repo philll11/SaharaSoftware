@@ -1,0 +1,48 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Shot from "./Shot.astro";
+import CardArt from "./CardArt.astro";
+
+interface Props {
+  entry: CollectionEntry<"work">;
+}
+const { entry } = Astro.props;
+const { name, title, card, status, stack } = entry.data;
+const shot = entry.data.cardShot ?? entry.data.shot;
+
+// Schematics for the projects whose screens cannot be shown.
+const art: Record<string, { steps: string[]; label: string }> = {
+  testify: {
+    steps: ["Component", "The test that proves it", "Result on the exact revision"],
+    label: "Each component linked to the test that proves it, and each result kept against the exact revision tested.",
+  },
+  "solace-queue-message-viewer": {
+    steps: ["Messages Queued", "Find Messages", "Payload and properties, queue untouched"],
+    label: "From the broker console's queue tab, Find Messages shows each message's payload and properties without consuming it.",
+  },
+};
+const schematic = art[entry.id];
+---
+
+<article class="work-card">
+  <div class="work-media">
+    {
+      shot ? (
+        <Shot light={shot.light} dark={shot.dark} alt="" framed={false} sizes="(max-width: 900px) 100vw, 560px" />
+      ) : (
+        schematic && <CardArt steps={schematic.steps} label={schematic.label} />
+      )
+    }
+  </div>
+  <div class="work-body">
+    <div class="work-meta">
+      <span class="work-name">{name}</span>
+      <span class:list={["badge", status.live && "badge-live"]}>{status.short}</span>
+    </div>
+    <h3><a href={`/work/${entry.id}`}>{title}</a></h3>
+    <p>{card}</p>
+    <ul class="chips" aria-label="Built with">
+      {stack.slice(0, 5).map((s) => <li>{s}</li>)}
+    </ul>
+  </div>
+</article>

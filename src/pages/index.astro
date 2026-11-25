@@ -1,0 +1,281 @@
+---
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import WorkCard from "../components/WorkCard.astro";
+import ContactForm from "../components/ContactForm.astro";
+import icon from "../assets/brand/icon.png";
+import { BUSINESS, EMAIL, GITHUB_URL, LINKEDIN_URL, PERSON, SITE_URL } from "../config";
+
+const work = (await getCollection("work")).sort((a, b) => a.data.order - b.data.order);
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${SITE_URL}/#leonard`,
+      name: PERSON,
+      jobTitle: "AI and integration engineer",
+      url: `${SITE_URL}/`,
+      sameAs: [LINKEDIN_URL, GITHUB_URL],
+      worksFor: { "@id": `${SITE_URL}/#business` },
+      address: { "@type": "PostalAddress", addressCountry: "NZ" },
+      knowsAbout: [
+        "AI agents",
+        "Claude Code plugins",
+        "Agent skills",
+        "GitHub Copilot",
+        "Systems integration",
+        "Boomi",
+        "NetSuite",
+        "Solace",
+        "Microsoft Azure",
+      ],
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": `${SITE_URL}/#business`,
+      name: BUSINESS,
+      url: `${SITE_URL}/`,
+      email: EMAIL,
+      logo: `${SITE_URL}/og/home.png`,
+      founder: { "@id": `${SITE_URL}/#leonard` },
+      areaServed: [
+        { "@type": "Country", name: "New Zealand" },
+        { "@type": "Country", name: "Australia" },
+      ],
+      address: { "@type": "PostalAddress", addressCountry: "NZ" },
+    },
+  ],
+};
+---
+
+<Base
+  title="Leonard Phillips: AI agents and integrations | Sahara Software"
+  description="Leonard Phillips builds AI agents, agent tooling and integrations that hold up in production. A sole-trader business in New Zealand, trading as Sahara Software."
+  jsonLd={jsonLd}
+>
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow">Leonard Phillips · Sahara Software · New Zealand</p>
+        <h1>AI agents and integrations that hold up in production.</h1>
+        <p class="lead">
+          I build plugins and skills that let AI coding agents like Claude Code and GitHub Copilot work reliably on
+          real business systems, with automatic checks on everything they produce and a person signing off anything
+          that cannot be undone. Behind that sit seven years of connecting the systems businesses run on.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#contact">Get in touch</a>
+          <a class="link-arrow" href="#work">See the work</a>
+        </div>
+      </div>
+
+      <aside class="profile-card" aria-label="At a glance">
+        <div class="profile-head">
+          <span class="profile-mark"><Image src={icon} alt="" width={48} densities={[1, 2]} loading="eager" /></span>
+          <div>
+            <p class="profile-name">Leonard Phillips</p>
+            <p class="profile-role">AI and integration engineer</p>
+          </div>
+        </div>
+        <dl>
+          <div class="profile-row"><dt>Business</dt><dd>Sahara Software, sole trader</dd></div>
+          <div class="profile-row"><dt>Based in</dt><dd>New Zealand, works remotely</dd></div>
+          <div class="profile-row"><dt>Builds with</dt><dd>Claude Code, GitHub Copilot</dd></div>
+          <div class="profile-row"><dt>Platforms</dt><dd>Boomi, NetSuite, Solace, Azure</dd></div>
+          <div class="profile-row"><dt>Certified in</dt><dd>Boomi, NetSuite, Solace, Scrum</dd></div>
+        </dl>
+      </aside>
+    </div>
+    <svg class="dunes" viewBox="0 0 1440 180" preserveAspectRatio="none" aria-hidden="true">
+      <path class="dune-1" d="M0,100 C220,50 420,128 640,110 C880,92 1040,34 1240,68 C1320,82 1390,92 1440,88 L1440,180 L0,180 Z"></path>
+      <path class="dune-2" d="M0,142 C240,102 460,158 720,138 C960,120 1180,94 1440,128 L1440,180 L0,180 Z"></path>
+      <path class="dune-3" d="M0,180 C280,150 620,176 900,164 C1140,154 1330,160 1440,170 L1440,180 Z"></path>
+    </svg>
+  </section>
+
+  <section class="section" id="work" aria-labelledby="work-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Selected work</p>
+        <h2 id="work-title">What I have built</h2>
+        <p class="lead">
+          Four projects, from an AI agent plugin to an open-source browser extension. Each page says plainly what I
+          did and where the project stands.
+        </p>
+      </div>
+      <div class="work-grid">
+        {work.map((entry) => <WorkCard entry={entry} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="how-i-work" aria-labelledby="method-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">How I work</p>
+        <h2 id="method-title">How I build with AI</h2>
+        <p class="lead">
+          I take the architect's role and an LLM writes much of the code. AI amplifies what a team already does well
+          or badly, so four rules come with every project.
+        </p>
+      </div>
+      <ol class="principles">
+        <li>
+          <h3>Give the AI something that can say no</h3>
+          <p>
+            An agent does better work when a compiler, a schema or a test can reject it. With Fathom, the agent writes
+            a short spec instead of Boomi's XML, and a compiler rejects a mistake before it ever reaches Boomi.
+          </p>
+          <a class="link-arrow evidence" href="/work/fathom">How Fathom does it</a>
+        </li>
+        <li>
+          <h3>Test everything, and release only what was tested</h3>
+          <p>
+            Every pull request runs automated checks, and production receives the exact build that passed in test.
+            Testify applies the same rule to integrations, keeping every result against the revision it tested.
+          </p>
+          <a class="link-arrow evidence" href="/work/testify">How Testify does it</a>
+        </li>
+        <li>
+          <h3>Keep a person at every step that cannot be undone</h3>
+          <p>
+            Agents read, plan and prepare freely. Anything that deploys, runs on a live system, deletes data or ships
+            to production waits for a person to confirm it.
+          </p>
+          <a class="link-arrow evidence" href="/work/fathom#plugin">How Fathom's hooks enforce it</a>
+        </li>
+        <li>
+          <h3>Teach the agent like a new colleague</h3>
+          <p>
+            Skills give an agent the knowledge a senior colleague would pass on, and the team's written conventions
+            keep its work consistent. Fathom's skills teach Boomi's concepts before its syntax, and its checks follow
+            the account's own handbook.
+          </p>
+          <a class="link-arrow evidence" href="/work/fathom#plugin">Inside the plugin</a>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" id="services" aria-labelledby="services-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Services</p>
+        <h2 id="services-title">How I can help your business</h2>
+        <p class="lead">
+          For businesses in New Zealand and Australia that want AI agents working safely on their systems, or whose
+          people re-key data between systems that should talk to each other.
+        </p>
+      </div>
+      <div class="service-grid">
+        <article class="service">
+          <h3>Plugins and skills for AI coding agents</h3>
+          <p>
+            Claude Code and GitHub Copilot can be taught your platform. I build the plugins that do it: skills that
+            carry your systems' knowledge and your team's rules, hooks that stop the agent where a person should
+            decide, subagents that review its work, and MCP servers that connect it to your tools.
+          </p>
+        </article>
+        <article class="service">
+          <h3>Integration advice and delivery</h3>
+          <p>
+            I know Boomi well, which is why I will also tell you when you do not need it. I look at your workflow and
+            volumes, recommend the option I would pick, whether a platform, a connector or a small piece of bespoke
+            software, and show you what it costs over five years.
+          </p>
+        </article>
+        <article class="service">
+          <h3>Bespoke software, built with AI and reviewed by me</h3>
+          <p>
+            When a workflow does not fit a product, or a licence is hard to justify for one or two integrations, I
+            build what you need with LLMs doing much of the coding. You get the code in your own environment, with
+            tests and the documentation another developer needs to run it.
+          </p>
+        </article>
+        <article class="service">
+          <h3>AI workflows for your team</h3>
+          <p>
+            I build software this way every day, and I can set up the same way of working for your team and teach
+            people to use it, in Claude Code or GitHub Copilot. The principles carry across tools.
+          </p>
+        </article>
+      </div>
+      <div class="terms-note">
+        <p>Hourly or fixed price. Tell me which workflow costs your business more time than it should.</p>
+        <a class="btn btn-primary" href="#contact">Get in touch</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="about" aria-labelledby="about-title">
+    <div class="container about-grid">
+      <div class="about-facts">
+        <h3>In short</h3>
+        <ul>
+          <li>Seven years in business systems and integration</li>
+          <li>Four years on Boomi, earlier work on NetSuite</li>
+          <li>Ten certifications across Boomi, NetSuite, Solace and Scrum</li>
+          <li>Datacom and Archant in New Zealand, Emixa in the Netherlands</li>
+          <li>Trading as Sahara Software since June 2026</li>
+        </ul>
+      </div>
+      <div class="about-copy">
+        <p class="eyebrow">About</p>
+        <h2 id="about-title">Hi, I'm Leonard.</h2>
+        <p>
+          I started in business systems in New Zealand at Datacom and Archant, where I connected NetSuite to
+          Mainfreight's distribution platform, automated month-end billing for thousands of customers and worked on
+          Peppol e-invoicing. I then spent two and a half years in the Netherlands as an integration consultant with
+          Emixa, seconded to a large European construction company, working with Boomi, Solace, Azure API Management,
+          Salesforce and ServiceNow.
+        </p>
+        <p>
+          Since June 2026 I have traded as Sahara Software, on contract to that same client, and built the platforms on
+          this page with AI doing much of the coding and my own design, checks and approval around it.
+        </p>
+        <p>
+          You can hire me for integration work, bespoke software, or setting up AI workflows for your team. If you are
+          hiring for a role, my experience is set out in full.
+        </p>
+        <p><a class="link-arrow" href="/experience">See my experience</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contact" aria-labelledby="contact-title">
+    <div class="container contact-inner">
+      <div class="contact-copy">
+        <p class="eyebrow">Contact</p>
+        <h2 id="contact-title">Tell me about the problem</h2>
+        <p class="lead">
+          A workflow that costs too much time, an integration that keeps failing, or a role you are hiring for. I read
+          and answer every message myself.
+        </p>
+        <ul class="contact-links">
+          <li>
+            <a href={`mailto:${EMAIL}`}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg>
+              {EMAIL}
+            </a>
+          </li>
+          <li>
+            <a href={LINKEDIN_URL}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"></rect><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"></path></svg>
+              LinkedIn
+            </a>
+          </li>
+          <li>
+            <a href={GITHUB_URL}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-4 1.5-4-2-6-2.5M15 21v-3.5a3 3 0 0 0-.9-2.4c3-.3 6-1.5 6-6.6a5.2 5.2 0 0 0-1.4-3.6 4.8 4.8 0 0 0-.1-3.6s-1.1-.3-3.6 1.4a12.4 12.4 0 0 0-6.5 0C6 1.4 4.9 1.7 4.9 1.7a4.8 4.8 0 0 0-.1 3.6A5.2 5.2 0 0 0 3.4 8.9c0 5.1 3 6.3 6 6.6a3 3 0 0 0-.9 2.4V21"></path></svg>
+              GitHub
+            </a>
+          </li>
+        </ul>
+      </div>
+      <ContactForm />
+    </div>
+  </section>
+</Base>

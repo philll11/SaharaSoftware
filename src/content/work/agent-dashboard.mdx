@@ -1,0 +1,78 @@
+---
+name: agent-dashboard
+title: What your coding agents cost, and how close you are to your limits
+summary: agent-dashboard shows how you use Claude Code, GitHub Copilot CLI and Copilot in VS Code, including plan limits, cost and where the usage goes. It runs in VS Code, on the desktop and in the terminal, from one Rust core.
+card: Usage, cost and plan limits for Claude Code and GitHub Copilot, in VS Code, on the desktop and in the terminal, from one Rust core.
+description: agent-dashboard, an open-source dashboard by Leonard Phillips for Claude Code and GitHub Copilot usage, cost and plan limits, in VS Code, on the desktop and in the terminal.
+order: 3
+status:
+  label: Version 2.1, for Windows, macOS and Linux
+  short: Open source · v2.1
+  asOf: 2026-11-25
+role: Sole author. Open source under the MIT licence.
+stack: [Rust, TypeScript, React, Tauri, VS Code extension, Playwright]
+links:
+  - label: Source on GitHub
+    href: https://github.com/philll11/agent-dashboard
+  - label: Releases and installers
+    href: https://github.com/philll11/agent-dashboard/releases
+shot:
+  light: ../../assets/work/agent-dashboard/overview-light.png
+  dark: ../../assets/work/agent-dashboard/overview-dark.png
+  alt: "agent-dashboard's overview: Claude Code's five-hour and weekly windows at 42% and 71%, Copilot's monthly allowance at 4%, and cost today, this week and this month, split by agent."
+  title: agent-dashboard, Overview
+cardShot:
+  light: ../../assets/work/agent-dashboard/card-light.png
+  dark: ../../assets/work/agent-dashboard/card-dark.png
+og: /og/agent-dashboard.png
+---
+
+import Shot from "../../components/Shot.astro";
+import limitsLight from "../../assets/work/agent-dashboard/limits-light.png";
+import limitsDark from "../../assets/work/agent-dashboard/limits-dark.png";
+
+## The problem
+
+If you work with coding agents every day, three questions keep coming back.
+How close am I to my plan's limit, and when does it reset?
+What is this costing, and who pays for which part?
+Where does the usage go: which projects, sessions, subagents, skills and MCP servers?
+The agents answer only part of that, one machine and a few days at a time, and Claude Code deletes its transcripts after 30 days by default.
+
+## What I built
+
+A dashboard for the agents I use myself, made to sit where the work happens.
+
+- **Plan limits at a glance.** Claude Code's five-hour and weekly windows and Copilot's monthly allowance, with when each resets and, at the current pace, where it will end.
+- **Cost that says where it comes from.** Every figure is labelled as recorded, estimated or mixed. An unpriced request shows as unpriced, never as $0.
+- **Each agent apart.** Agents are often paid for by different people, so usage is split by agent before anything is added up.
+- **Where it goes.** Projects, sessions, subagents, skills, MCP servers, models and how well the prompt cache works.
+- **History that lasts.** It keeps what it has read, long after the agents' own transcripts are gone.
+- **Local and private.** No telemetry, no prompt or code content stored, and the network used only for features you switch on.
+
+<figure>
+  <Shot light={limitsLight} dark={limitsDark} alt="The Limits section: the five-hour window at 42% with a forecast of about 73% at reset, and the weekly window at 71% with a warning over 70%." title="agent-dashboard, Limits" sizes="(max-width: 760px) 100vw, 720px" />
+  <figcaption>Limits forecast where each window will end at the current pace, and say which source each reading came from.</figcaption>
+</figure>
+
+## How it is built
+
+One Rust core reads the agents' own files into a single history, and three surfaces sit on top of it:
+
+- a **VS Code extension** with a status bar item, a sidebar summary and the full dashboard in a panel or an editor tab, working over WSL and SSH;
+- a **desktop app** built with Tauri, with a tray item, signed automatic updates and installers that need no administrator rights;
+- a **terminal UI** that works from the keyboard alone, plus reports with `--json` and `--csv` output for scripts.
+
+The VS Code and desktop surfaces share one React interface, drawn in each host's own theme, high contrast included.
+Seventeen architecture decision records explain the choices.
+About 410 Rust tests cover the core, and Playwright tests check every section for visual changes and accessibility in each theme.
+Releases ship for Windows, macOS and Linux on x64 and arm64.
+
+## Where it stands
+
+agent-dashboard is at version 2.1, released on 12 November 2026.
+It is open source and installed from its GitHub releases.
+
+## What this means for you
+
+It shows how I build software for real use: start from the questions people ask most often, be honest about where every number comes from, and test what people see, not just the code behind it.

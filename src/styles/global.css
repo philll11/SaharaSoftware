@@ -499,32 +499,38 @@ code, pre, kbd { font-family: var(--font-mono); }
 
 /* ----------------------------------------------------------------- about */
 
+/* The same columns as the services heading, so the two sections line up. */
 .about-grid {
   display: grid;
-  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-  gap: 56px;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 32px 48px;
   align-items: start;
 }
-.about-side { display: flex; flex-direction: column; gap: 24px; }
-.about-photo {
-  width: 100%;
-  max-width: 208px;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  border-radius: 14px;
-}
-.about-copy { display: flex; flex-direction: column; gap: 18px; }
+.about-intro { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+.about-portrait { padding: 8px; margin-top: 18px; }
+.about-photo { display: block; width: 208px; height: auto; aspect-ratio: 4 / 5; object-fit: cover; }
+/* Starts level with the heading rather than the eyebrow above it. */
+.about-copy { display: flex; flex-direction: column; gap: 18px; padding-top: 34px; }
 .about-copy p { font-size: 16.5px; line-height: 1.7; }
+
 .about-facts {
-  background: var(--panel);
-  border: 1px solid var(--panel-border);
-  border-radius: 18px;
-  padding: 26px;
+  margin: 64px 0 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
 }
-.about-facts h3 { font-size: 16px; margin-bottom: 8px; }
-.about-facts ul { margin: 0; padding: 0; list-style: none; }
-.about-facts li { font-size: 14.5px; padding: 9px 0; border-top: 1px solid var(--row-border); color: var(--ink); }
-.about-facts li:first-child { border-top: 0; }
+.about-facts > div { padding: 18px 24px 20px; border-left: 1px solid var(--border); }
+.about-facts > div:nth-child(3n + 1) { padding-left: 0; border-left: 0; }
+.about-facts > div:nth-child(n + 4) { border-top: 1px solid var(--border); }
+.about-facts dt {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.about-facts dd { margin: 6px 0 0; font-size: 15px; line-height: 1.5; color: var(--ink); }
 
 /* --------------------------------------------------------------- contact */
 
@@ -808,7 +814,7 @@ pre[class*="language-"], .prose pre {
   .site-header.nav-open .site-nav { display: flex; }
   .section { padding: 60px 0; }
   .work-grid, .principles { grid-template-columns: minmax(0, 1fr); }
-  .about-grid, .contact-inner { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .contact-inner { grid-template-columns: minmax(0, 1fr); gap: 32px; }
   .cert-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .footer-top { grid-template-columns: minmax(0, 1fr); }
   .footer-cols { grid-row: auto; grid-column: 1; gap: 40px; margin-top: 18px; flex-wrap: wrap; }
@@ -1272,4 +1278,23 @@ pre[class*="language-"], .prose pre {
 @media (max-width: 640px) {
   .fig-sheet { padding: 12px; }
   .hero-figure { margin-top: 8px; }
+}
+
+/* ------------------------------------------------------- about, narrower */
+
+@media (max-width: 900px) {
+  .about-grid { column-gap: 32px; }
+  .about-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 48px; }
+  .about-facts > div:nth-child(3n + 1) { padding-left: 24px; border-left: 1px solid var(--border); }
+  .about-facts > div:nth-child(2n + 1) { padding-left: 0; border-left: 0; }
+  .about-facts > div:nth-child(n + 3) { border-top: 1px solid var(--border); }
+}
+
+@media (max-width: 640px) {
+  .about-grid { grid-template-columns: minmax(0, 1fr); }
+  .about-copy { padding-top: 0; }
+  .about-portrait { margin-top: 8px; }
+  .about-facts { grid-template-columns: minmax(0, 1fr); }
+  .about-facts > div:nth-child(n) { padding: 14px 0 16px; border-left: 0; }
+  .about-facts > div + div { border-top: 1px solid var(--border); }
 }

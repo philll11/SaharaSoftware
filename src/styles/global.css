@@ -555,6 +555,7 @@ code, pre, kbd { font-family: var(--font-mono); }
   gap: 56px;
   align-items: start;
 }
+.about-side { display: flex; flex-direction: column; gap: 24px; }
 .about-photo {
   width: 100%;
   aspect-ratio: 4 / 5;
@@ -1105,3 +1106,17 @@ pre[class*="language-"], .prose pre {
 .prose > .layers { margin-top: 24px; }
 .prose > .flow + *,
 .prose > .layers + * { margin-top: 28px; }
+
+.education-head { margin-top: 64px; margin-bottom: 20px; }
+.education {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.education b { color: var(--ink); font-weight: 600; font-size: 15px; }
+.education span { font-size: 14px; color: var(--muted); line-height: 1.5; }

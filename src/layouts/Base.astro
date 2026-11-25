@@ -55,6 +55,7 @@ Astro.csp?.insertScriptHash(`sha256-${createHash("sha256").update(themeInit).dig
     <Font cssVariable="--font-display" preload />
     <Font cssVariable="--font-body" preload />
     <Font cssVariable="--font-mono" />
+    <Font cssVariable="--font-hand" />
     {jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>
   <body>

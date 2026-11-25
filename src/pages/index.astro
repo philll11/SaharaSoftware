@@ -4,12 +4,36 @@ import { Image, getImage } from "astro:assets";
 import Base from "../layouts/Base.astro";
 import WorkCard from "../components/WorkCard.astro";
 import ContactForm from "../components/ContactForm.astro";
+import AgentFigure from "../components/AgentFigure.astro";
 import headshot from "../assets/people/leonard-square.jpg";
 import portrait from "../assets/people/leonard-portrait.jpg";
 import { BUSINESS, EMAIL, GITHUB_URL, LINKEDIN_URL, PERSON, SITE_URL } from "../config";
 
 const work = (await getCollection("work")).sort((a, b) => a.data.order - b.data.order);
 const headshotForSearch = await getImage({ src: headshot, width: 480, format: "jpg" });
+
+const services = [
+  {
+    title: "Plugins and skills for AI coding agents",
+    body: "Claude Code and GitHub Copilot can be taught your platform. I build the plugins that do it: skills that carry your systems' knowledge and your team's rules, hooks that stop the agent where a person should decide, subagents that review its work, and MCP servers that connect it to your tools.",
+    get: "A plugin for your platform, as deterministic as it can be made",
+  },
+  {
+    title: "Integration advice and delivery",
+    body: "I know Boomi well, which is why I will also tell you when you do not need it. I look at your workflow and volumes, recommend the option I would pick, whether a platform, a connector or a small piece of bespoke software, and show you what it costs over five years.",
+    get: "A recommendation with its five-year cost, then the build",
+  },
+  {
+    title: "Bespoke software, built with AI and reviewed by me",
+    body: "When a workflow does not fit a product, or a licence is hard to justify for one or two integrations, I build what you need with LLMs doing much of the coding.",
+    get: "The code in your own environment, with tests and documentation",
+  },
+  {
+    title: "AI workflows for your team",
+    body: "I build software this way every day, and I can set up the same way of working for your team and teach people to use it, in Claude Code or GitHub Copilot. The principles carry across tools.",
+    get: "Your team set up and trained, in the tool it already uses",
+  },
+];
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -75,22 +99,7 @@ const jsonLd = {
         </div>
       </div>
 
-      <aside class="profile-card" aria-label="At a glance">
-        <div class="profile-head">
-          <Image src={headshot} alt="Leonard Phillips" width={64} height={64} densities={[1, 2]} class="profile-photo" loading="eager" />
-          <div>
-            <p class="profile-name">Leonard Phillips</p>
-            <p class="profile-role">AI and integration engineer</p>
-          </div>
-        </div>
-        <dl>
-          <div class="profile-row"><dt>Business</dt><dd>Sahara Software, sole trader</dd></div>
-          <div class="profile-row"><dt>Based in</dt><dd>New Zealand, works remotely</dd></div>
-          <div class="profile-row"><dt>Builds with</dt><dd>Claude Code, GitHub Copilot</dd></div>
-          <div class="profile-row"><dt>Platforms</dt><dd>Boomi, NetSuite, Solace, Azure</dd></div>
-          <div class="profile-row"><dt>Certified in</dt><dd>Boomi, NetSuite, Solace, Scrum</dd></div>
-        </dl>
-      </aside>
+      <AgentFigure class="hero-figure" />
     </div>
     <svg class="dunes" viewBox="0 0 1440 180" preserveAspectRatio="none" aria-hidden="true">
       <path class="dune-1" d="M0,100 C220,50 420,128 640,110 C880,92 1040,34 1240,68 C1320,82 1390,92 1440,88 L1440,180 L0,180 Z"></path>
@@ -166,51 +175,44 @@ const jsonLd = {
 
   <section class="section" id="services" aria-labelledby="services-title">
     <div class="container">
-      <div class="section-head">
-        <p class="eyebrow">Services</p>
-        <h2 id="services-title">How I can help your business</h2>
+      <div class="schedule-head">
+        <div>
+          <p class="eyebrow">Services</p>
+          <h2 id="services-title">How I can help your business</h2>
+        </div>
         <p class="lead">
           For businesses in New Zealand and Australia that want AI agents working safely on their systems, or whose
           people re-key data between systems that should talk to each other.
         </p>
       </div>
-      <div class="service-grid">
-        <article class="service">
-          <h3>Plugins and skills for AI coding agents</h3>
+      <div class="schedule">
+        <div class="schedule-cols apparatus" aria-hidden="true">
+          <span>Item</span><span>Service</span><span>What you get</span>
+        </div>
+        <ol>
+          {
+            services.map((s, i) => (
+              <li class="schedule-row">
+                <span class="schedule-num">{String(i + 1).padStart(2, "0")}</span>
+                <div>
+                  <h3>{s.title}</h3>
+                  <p>{s.body}</p>
+                </div>
+                <p class="schedule-get">
+                  <span class="apparatus">What you get</span>
+                  {s.get}
+                </p>
+              </li>
+            ))
+          }
+        </ol>
+        <div class="schedule-terms">
           <p>
-            Claude Code and GitHub Copilot can be taught your platform. I build the plugins that do it: skills that
-            carry your systems' knowledge and your team's rules, hooks that stop the agent where a person should
-            decide, subagents that review its work, and MCP servers that connect it to your tools. Each is designed
-            to be as deterministic as possible, so the agent has little left to assume.
+            <span class="apparatus">Terms</span>Hourly or fixed price. Tell me which workflow costs your business more
+            time than it should.
           </p>
-        </article>
-        <article class="service">
-          <h3>Integration advice and delivery</h3>
-          <p>
-            I know Boomi well, which is why I will also tell you when you do not need it. I look at your workflow and
-            volumes, recommend the option I would pick, whether a platform, a connector or a small piece of bespoke
-            software, and show you what it costs over five years.
-          </p>
-        </article>
-        <article class="service">
-          <h3>Bespoke software, built with AI and reviewed by me</h3>
-          <p>
-            When a workflow does not fit a product, or a licence is hard to justify for one or two integrations, I
-            build what you need with LLMs doing much of the coding. You get the code in your own environment, with
-            tests and the documentation another developer needs to run it.
-          </p>
-        </article>
-        <article class="service">
-          <h3>AI workflows for your team</h3>
-          <p>
-            I build software this way every day, and I can set up the same way of working for your team and teach
-            people to use it, in Claude Code or GitHub Copilot. The principles carry across tools.
-          </p>
-        </article>
-      </div>
-      <div class="terms-note">
-        <p>Hourly or fixed price. Tell me which workflow costs your business more time than it should.</p>
-        <a class="btn btn-primary" href="#contact">Get in touch</a>
+          <a class="btn btn-primary" href="#contact">Get in touch</a>
+        </div>
       </div>
     </div>
   </section>

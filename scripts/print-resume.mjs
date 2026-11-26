@@ -7,8 +7,11 @@
 //                                            saves both resumes to Downloads (`pnpm resume`)
 //
 // It stops with an error when a page logs one (a CSP violation among them) or
-// when a sheet's text would be cut off: every [data-fit] box must hold its
-// content. Move the page split in the design when the content outgrows a sheet.
+// when a sheet is nearly full: every [data-fit] box must keep MIN_SPARE_MM free
+// below its content, or above its [data-foot] furniture. Chromium sets text a
+// little differently on Linux, Windows and macOS, so a sheet that only just
+// fits on one can overflow on another. Move the page split in the design, or
+// tighten its spacing, when a sheet runs short.
 import { mkdtemp, rm } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
 import path from "node:path";
@@ -16,6 +19,7 @@ import { build, preview } from "astro";
 import { chromium } from "@playwright/test";
 
 const isPrivate = process.argv.includes("--private");
+const MIN_SPARE_MM = 4;
 
 let outDir = "dist";
 // The public file name matches RESUME_URL in src/config.ts.
@@ -46,18 +50,36 @@ try {
     await page.evaluate(() => document.fonts.ready);
     await page.emulateMedia({ media: "print" });
 
-    const overflowing = await page.$$eval("[data-fit]", (boxes) =>
-      boxes
-        .filter((b) => b.scrollHeight > b.clientHeight + 1)
-        .map((b) => `${b.closest(".sheet")?.getAttribute("aria-label")}, ${Math.ceil(((b.scrollHeight - b.clientHeight) * 25.4) / 96)} mm over`),
+    // Free space in each box, in millimetres: from the bottom of its content to
+    // its foot furniture, or to the inside of its bottom padding and border.
+    const spare = await page.$$eval("[data-fit]", (boxes) =>
+      boxes.map((box) => {
+        const kids = [...box.children];
+        const foot = kids.filter((k) => k.hasAttribute("data-foot"));
+        const style = getComputedStyle(box);
+        const limit = foot.length
+          ? Math.min(...foot.map((f) => f.getBoundingClientRect().top))
+          : box.getBoundingClientRect().bottom - parseFloat(style.paddingBottom) - parseFloat(style.borderBottomWidth);
+        const used = Math.max(
+          ...kids
+            .filter((k) => !k.hasAttribute("data-foot"))
+            .map((k) => k.getBoundingClientRect().bottom + parseFloat(getComputedStyle(k).marginBottom)),
+        );
+        const overflow = box.scrollHeight - box.clientHeight;
+        const mm = ((overflow > 1 ? -overflow : limit - used) * 25.4) / 96;
+        return { sheet: box.closest(".sheet")?.getAttribute("aria-label") ?? "a sheet", mm };
+      }),
     );
-    if (overflowing.length) {
-      throw new Error(`${pagePath} does not fit its sheets (${overflowing.join("; ")}). Move the page split in its design.`);
+    const tightest = spare.reduce((a, b) => (b.mm < a.mm ? b : a));
+    if (tightest.mm < MIN_SPARE_MM) {
+      throw new Error(
+        `${pagePath}: ${tightest.sheet} has ${tightest.mm.toFixed(1)} mm to spare and needs ${MIN_SPARE_MM}. Move the page split in its design, or tighten its spacing.`,
+      );
     }
     if (errors.length) throw new Error(`${pagePath} logged errors: ${errors.join(" | ")}`);
 
     await page.pdf({ path: out, preferCSSPageSize: true, printBackground: true, tagged: true, outline: true });
-    console.log(`resume: ${pagePath} printed to ${out}`);
+    console.log(`resume: ${pagePath} printed to ${out} (tightest: ${tightest.sheet}, ${tightest.mm.toFixed(1)} mm to spare)`);
     await page.close();
   }
 } finally {

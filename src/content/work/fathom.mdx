@@ -5,16 +5,16 @@ summary: Fathom is a plugin for Claude Code and GitHub Copilot CLI that turns Bo
 card: Opens Boomi up so an AI agent can understand it deterministically, with a visual design stage the developer shapes alongside the agent. Less to assume means fewer mistakes and fewer wasted tokens.
 resume:
   line: "A plugin for Claude Code and GitHub Copilot CLI that opens Boomi up so an AI agent can understand it deterministically, with a visual design stage the developer shapes alongside the agent."
-  stack: [Agent skills, Hooks, MCP, Go]
+  stack: [Agent skills, Hooks, MCP, Rust]
 description: Fathom is a plugin for Claude Code and GitHub Copilot CLI by Leonard Phillips that opens Boomi up so AI agents can understand it deterministically, with a visual design stage the developer shapes alongside the agent.
 order: 1
 status:
   label: Live at version 1.0, used by the client's integration developers
   short: Live · version 1.0
   live: true
-  asOf: 2026-11-25
+  asOf: 2026-11-26
 role: Sole author. Independent project.
-stack: [Claude Code plugin, GitHub Copilot CLI, Agent skills, Hooks, MCP, Go, Boomi]
+stack: [Claude Code plugin, GitHub Copilot CLI, Agent skills, Hooks, MCP, Rust, Boomi]
 shot:
   light: ../../assets/work/fathom/landscape.png
   alt: "Fathom's design preview drawing an order integration: a scheduled process hands orders to a queue, two listeners read it, and one writes to the ledger. Two findings from the account's handbook are marked."
@@ -97,7 +97,7 @@ Fathom shapes what the agent knows, what it may do and when it must stop, throug
 ## How it was built
 
 I designed Fathom and made its decisions, and an LLM wrote much of the code inside the same rules Fathom enforces.
-The toolchain is one Go binary with about 380 test files, released by a pipeline for Linux, macOS and Windows, with a Rust port under way.
+The toolchain is one Rust binary with about 2,600 tests, released by a pipeline for Linux, macOS and Windows.
 It reached a working toolchain in weeks of development, not months.
 
 ## Where it stands

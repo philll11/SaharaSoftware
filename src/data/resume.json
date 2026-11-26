@@ -121,8 +121,6 @@
   "certificates": [
     { "name": "Solutions Architect", "issuer": "Solace", "date": "2023-10" },
     { "name": "Event Driven Architecture Practitioner", "issuer": "Solace", "date": "2023-10" },
-    { "name": "Professional Integration Developer", "issuer": "Boomi" },
-    { "name": "Associate Integration Developer", "issuer": "Boomi" },
     { "name": "Professional API Design", "issuer": "Boomi", "date": "2023-10" },
     { "name": "Professional API Management", "issuer": "Boomi", "date": "2023-10" },
     { "name": "Associate Master Data Hub", "issuer": "Boomi", "date": "2023-10" },
@@ -130,7 +128,6 @@
     { "name": "SuiteAnalytics User", "issuer": "NetSuite", "date": "2022-04" },
     { "name": "SuiteCloud Developer II", "issuer": "NetSuite", "date": "2021-12" },
     { "name": "Certified Administrator", "issuer": "NetSuite", "date": "2021-11" },
-    { "name": "SuiteFoundation", "issuer": "NetSuite" },
     { "name": "Professional Scrum Master I", "issuer": "Scrum.org", "date": "2025-09" }
   ],
   "skills": [

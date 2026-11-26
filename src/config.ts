@@ -1,4 +1,5 @@
 // Site-wide constants shared by the Astro config (CSP, sitemap) and the pages.
+import resume from "./data/resume.json" with { type: "json" };
 
 export const SITE_URL = "https://www.saharasoftware.co.nz";
 
@@ -6,13 +7,14 @@ export const SITE_URL = "https://www.saharasoftware.co.nz";
 // from this value, so the form and the policy cannot drift apart.
 export const CONTACT_ENDPOINT = "https://sahara-contact.saharasoftware.workers.dev/";
 
-export const EMAIL = "leonard@saharasoftware.co.nz";
-export const LINKEDIN_URL = "https://www.linkedin.com/in/leonard-phillips";
-export const GITHUB_URL = "https://github.com/philll11";
+// Read from the resume data, so the site and the resume give the same details.
+const profile = (network: string) => resume.basics.profiles.find((p) => p.network === network)!.url;
+export const EMAIL = resume.basics.email;
+export const LINKEDIN_URL = profile("LinkedIn");
+export const GITHUB_URL = profile("GitHub");
+export const PERSON = resume.basics.name;
+export const BUSINESS = resume.basics.custom.business;
 
-// A public CV under public/, such as "/leonard-phillips-cv.pdf". The
-// Experience page offers a download only when this is set.
-export const CV_URL: string | null = null;
-
-export const PERSON = "Leonard Phillips";
-export const BUSINESS = "Sahara Software";
+// The public resume, which scripts/print-resume.mjs writes into dist/ on every
+// build. The link test fails if the file is missing.
+export const RESUME_URL = "/leonard-phillips-resume.pdf";

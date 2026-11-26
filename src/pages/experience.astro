@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
-import { CV_URL, EMAIL, GITHUB_URL, LINKEDIN_URL } from "../config";
+import { EMAIL, GITHUB_URL, LINKEDIN_URL, RESUME_URL } from "../config";
+import { dateRange, employers, monthYear, resume } from "../resume";
 
 interface Role {
   title: string;
@@ -11,126 +12,44 @@ interface Job {
   org: string;
   where: string;
   when: string;
-  title?: string;
-  summary?: string;
-  points?: string[];
+  title?: string | undefined;
+  summary?: string | undefined;
+  points?: string[] | undefined;
   roles?: Role[];
 }
 
-const jobs: Job[] = [
-  {
-    org: "Sahara Software",
-    title: "Sole trader, AI and integration engineer",
-    when: "June 2026 to present",
-    where: "New Zealand, remote",
-    summary:
-      "My own business, for clients in New Zealand and Australia. On contract to a large European construction company, working remotely from New Zealand. Across this engagement and my earlier secondment there, with LLMs doing much of the coding and my own design, checks and approval around it:",
-    points: [
-      "Built Testify, an automated regression testing platform for Boomi, live in production.",
-      "Built Fathom, a plugin for Claude Code and GitHub Copilot CLI, with its own skills, hooks and toolchain, that lets AI agents build Boomi integrations safely. The client's integration developers use it for their integration work.",
-      "Designed a monitoring platform for Boomi in the client's own Azure, on OpenTelemetry and Grafana and defined entirely as code, in development and validated end to end in a sandbox.",
-      "Built agent-dashboard, an open-source dashboard for the usage, cost and plan limits of Claude Code and GitHub Copilot.",
-    ],
-  },
-  {
-    org: "Emixa",
-    title: "Integration Consultant",
-    when: "October 2023 to May 2026",
-    where: "Netherlands",
-    summary:
-      "Seconded to a large European construction company from January 2024, working with Boomi, Solace, Azure API Management, Salesforce and ServiceNow.",
-    points: [
-      "Designed RESTful APIs with OpenAPI v3 in Azure API Management, secured with OAuth 2.0 and backed by Boomi, that gave third-party applications controlled access to residential construction data that security policy barred them from reaching directly.",
-      "Designed a JSON-RPC 2.0 API with a Boomi backend, decoupled so that a new remote procedure needs no redeployment of the API or the backend.",
-      "Designed an event-driven integration that carries ServiceNow changes to three other systems, with a routing layer that mimics Solace, so only that layer changes when Solace goes live.",
-      "Designed a decoupled logging framework in Boomi, so a logging failure never stops the business process it records.",
-      "Became lead maintainer of the open-source Solace Queue Message Viewer, a Solace-managed repository, and demoed it as a guest speaker at the Solace Community lightning talks in January 2025.",
-    ],
-  },
-  {
-    org: "Career break",
-    when: "June 2023 to September 2023",
-    where: "Europe",
-    summary: "Travelled Europe in a van called Vincent.",
-  },
-  {
-    org: "Datacom",
-    when: "September 2021 to June 2023",
-    where: "Auckland, New Zealand",
-    roles: [
-      {
-        title: "Principal Engineer, ERP and Integration",
-        when: "October 2022 to June 2023",
-        points: [
-          "Technical lead on implementation and customisation projects across the business, including Peppol e-invoicing for accounts payable and receivable, an Oracle Fusion HCM implementation, and a custom memorised-transaction solution for a new productised service.",
-        ],
-      },
-      {
-        title: "Senior Engineer, ERP and Integration",
-        when: "September 2021 to September 2022",
-        points: [
-          "Connected Datacom's internal business systems with Boomi, through the Oracle HCM, NetSuite and Activate APIs, with pagination for large extracts and PGP encryption for sensitive data.",
-          "Customised NetSuite where an integration met its limits, with SuiteScript, workflows and saved searches.",
-        ],
-      },
-    ],
-  },
-  {
-    org: "Archant",
-    title: "NetSuite Developer and Administrator",
-    when: "January 2021 to September 2021",
-    where: "Hawke's Bay, New Zealand",
-    points: [
-      "Built the shipping integration that connects NetSuite order fulfilment to Mainfreight's distribution platform.",
-      "Project-managed a Magento 2 e-commerce deployment integrated with NetSuite.",
-      "Built a purchase order and expense approval workflow with delegated financial authority limits and a multi-level hierarchy.",
-      "Implemented inbound shipments for more accurate arrival dates and cash-flow forecasting.",
-    ],
-  },
-  {
-    org: "Datacom",
-    title: "NetSuite Technical Analyst",
-    when: "October 2019 to January 2021",
-    where: "Auckland, New Zealand",
-    points: [
-      "Built an automated billing schedule that invoices 2,500 customers at month-end.",
-      "Built an accounts-payable tool that sends payment files from NetSuite to a bank over SFTP.",
-      "Built a purchase requisition tool for Datacom's employees.",
-    ],
-  },
-];
+// An employer with one role shows it in place of the employer's name; one with
+// several lists each role under the employer.
+const jobs: Job[] = employers.map((e) => {
+  const when = dateRange(e.start, e.end);
+  if (e.roles.length > 1) {
+    return {
+      org: e.name,
+      where: e.location,
+      when,
+      roles: e.roles.map((r) => ({ title: r.title, when: dateRange(r.start, r.end), points: r.highlights })),
+    };
+  }
+  const [role] = e.roles;
+  return {
+    org: e.name,
+    where: e.location,
+    when,
+    title: e.isBreak ? undefined : role!.title,
+    summary: role!.summary,
+    points: role!.highlights.length ? role!.highlights : undefined,
+  };
+});
 
-const certifications: { name: string; issuer: string; when?: string }[] = [
-  { name: "Solutions Architect", issuer: "Solace", when: "October 2023" },
-  { name: "Event Driven Architecture Practitioner", issuer: "Solace", when: "October 2023" },
-  { name: "Professional Integration Developer", issuer: "Boomi" },
-  { name: "Associate Integration Developer", issuer: "Boomi" },
-  { name: "Professional API Design", issuer: "Boomi", when: "October 2023" },
-  { name: "Professional API Management", issuer: "Boomi", when: "October 2023" },
-  { name: "Associate Master Data Hub", issuer: "Boomi", when: "October 2023" },
-  { name: "Associate Administrator", issuer: "Boomi", when: "January 2022" },
-  { name: "SuiteAnalytics User", issuer: "NetSuite", when: "April 2022" },
-  { name: "SuiteCloud Developer II", issuer: "NetSuite", when: "December 2021" },
-  { name: "Certified Administrator", issuer: "NetSuite", when: "November 2021" },
-  { name: "SuiteFoundation", issuer: "NetSuite" },
-  { name: "Professional Scrum Master I", issuer: "Scrum.org", when: "September 2025" },
-];
+const certifications = resume.certificates.map((c) => ({
+  name: c.name,
+  issuer: c.issuer,
+  when: c.date ? monthYear(c.date) : undefined,
+}));
 
-const skills = [
-  { group: "Building with AI", items: ["Claude Code", "GitHub Copilot", "Agent plugins and skills", "Hooks and subagents", "MCP servers", "Generative AI"] },
-  {
-    group: "Integration",
-    items: ["Boomi", "NetSuite", "Oracle HCM", "Solace", "Event-driven architecture", "REST and SOAP APIs", "Azure API Management", "OAuth 2.0"],
-  },
-  {
-    group: "Languages and frameworks",
-    items: ["TypeScript", "JavaScript", "Go", "Rust", "Python", "Groovy", "SuiteScript", "React", "NestJS", "PostgreSQL"],
-  },
-  {
-    group: "Cloud and delivery",
-    items: ["Microsoft Azure", "Bicep", "Docker", "Kubernetes", "OpenTelemetry", "Grafana", "Azure DevOps", "GitHub Actions", "Test automation"],
-  },
-];
+const [education] = resume.education;
+
+const skills = resume.skills.map((s) => ({ group: s.name, items: s.keywords }));
 ---
 
 <Base
@@ -149,9 +68,8 @@ const skills = [
       <div class="availability">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M8 12.5l2.6 2.6L16.5 9.5"></path></svg>
         <p>
-          Open to contract and permanent roles in AI and integration engineering, remote from New Zealand.{" "}
-          {CV_URL ? <a href={CV_URL}>Download my CV (PDF)</a> : <a href={LINKEDIN_URL}>See my LinkedIn profile</a>}{" "}
-          or email <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.
+          {resume.basics.custom.availability}{" "}
+          <a href={RESUME_URL}>Download my resume (PDF)</a> or email <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.
         </p>
       </div>
     </div>
@@ -224,8 +142,8 @@ const skills = [
         <h2 id="education-title">Education</h2>
       </div>
       <div class="education">
-        <b>Bachelor of Information Science</b>
-        <span>Major in software engineering, minor in data science. Massey University, New Zealand.</span>
+        <b>{education!.studyType}</b>
+        <span>{education!.custom.detail}. {education!.institution}, {education!.location}.</span>
       </div>
     </div>
   </section>

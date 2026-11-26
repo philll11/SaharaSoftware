@@ -1,0 +1,538 @@
+---
+// The public resume, in the website's drawing-sheet language: a framed A4 sheet
+// with corner marks, a ruled title block, section numbers in the margin, the
+// selected work as a schedule and a title strip on every sheet. One column of
+// text in reading order, so a parser reads it as a person does.
+import { getCollection } from "astro:content";
+import { certificateGroups, employers, monthYear, profileParagraphs, resume, updated } from "../../resume";
+
+// Employers from this index on start sheet 2. The print script fails the build
+// when a sheet overflows; move the split when the content outgrows a sheet.
+const SHEET_TWO_FROM = 2;
+
+const work = (await getCollection("work")).sort((a, b) => a.data.order - b.data.order);
+const { basics } = resume;
+const display = (url: string) => url.replace(/^https?:\/\/(www\.)?/, "");
+const contact = [
+  { label: "Email", value: basics.email, href: `mailto:${basics.email}` },
+  { label: "Web", value: display(basics.url), href: basics.url },
+  ...basics.profiles.map((p) => ({ label: p.network, value: display(p.url), href: p.url })),
+];
+const [education] = resume.education;
+const sheets = [employers.slice(0, SHEET_TWO_FROM), employers.slice(SHEET_TWO_FROM)];
+---
+
+<div class="b">
+  {
+    sheets.map((sheetEmployers, sheetIndex) => (
+      <section class="sheet b-sheet" aria-label={`Sheet ${sheetIndex + 1} of ${sheets.length}`}>
+        <div class="b-frame" data-fit>
+          {sheetIndex === 0 && (
+            <>
+              <header class="b-head">
+                <div>
+                  <p class="b-app">Resume · {basics.custom.business}</p>
+                  <h1>{basics.name}</h1>
+                  <p class="b-role">{basics.label}</p>
+                  <p class="b-headline">{basics.custom.headline}</p>
+                </div>
+                <dl class="b-block">
+                  {contact.map((c) => (
+                    <div>
+                      <dt>{c.label}</dt>
+                      <dd>
+                        <a href={c.href}>{c.value}</a>
+                      </dd>
+                    </div>
+                  ))}
+                  <div>
+                    <dt>Based in</dt>
+                    <dd>{basics.location.region}</dd>
+                  </div>
+                  <div class="b-updated">
+                    <dt>Updated</dt>
+                    <dd>{updated()}</dd>
+                  </div>
+                </dl>
+              </header>
+
+              <section class="b-sec">
+                <p class="b-num">01</p>
+                <div class="b-body">
+                  <h2>Profile</h2>
+                  <div class="b-profile">
+                    {profileParagraphs.map((p) => (
+                      <p>{p}</p>
+                    ))}
+                    <p class="b-avail">{basics.custom.availability}</p>
+                  </div>
+                </div>
+              </section>
+
+              <section class="b-sec">
+                <p class="b-num">02</p>
+                <div class="b-body">
+                  <h2>Selected work</h2>
+                  <ol class="b-schedule">
+                    {work.map((w, i) => (
+                      <li>
+                        <span class="b-item">{String(i + 1).padStart(2, "0")}</span>
+                        <div>
+                          <h3>{w.data.name}</h3>
+                          <p>{w.data.resume.line}</p>
+                        </div>
+                        <div class="b-status">
+                          <p>{w.data.status.label}</p>
+                          <p class="b-stack">{w.data.resume.stack.join(", ")}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              </section>
+            </>
+          )}
+
+          <section class="b-sec">
+            <p class="b-num">03</p>
+            <div class="b-body">
+              <h2>{sheetIndex === 0 ? "Experience" : "Experience, continued"}</h2>
+            </div>
+          </section>
+          {sheetEmployers.map((e) =>
+            e.roles.map((r, ri) => (
+              <div class="b-sec b-job">
+                <p class="b-when">
+                  {monthYear(r.start, true)}
+                  <br />
+                  to {r.end ? monthYear(r.end, true) : "present"}
+                  {ri === 0 && <span>{e.location}</span>}
+                </p>
+                <div class="b-body">
+                  <h3>
+                    {r.title}
+                    {!e.isBreak && <span class="b-org"> · {e.name}</span>}
+                  </h3>
+                  {r.resumeSummary && <p>{r.resumeSummary}</p>}
+                  {r.resumeHighlights.length > 0 && (
+                    <ul class="b-points">
+                      {r.resumeHighlights.map((h) => (
+                        <li>{h}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
+            )),
+          )}
+
+          {sheetIndex === sheets.length - 1 && (
+            <>
+              <section class="b-sec">
+                <p class="b-num">04</p>
+                <div class="b-body">
+                  <h2>Certifications</h2>
+                  <div class="b-certs">
+                    {certificateGroups.map((g) => (
+                      <div>
+                        <h3 class="b-app">{g.issuer}</h3>
+                        <ul>
+                          {g.items.map((c) => (
+                            <li>
+                              {c.name}
+                              {c.date && <span> {c.date.slice(0, 4)}</span>}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </section>
+
+              <section class="b-sec">
+                <p class="b-num">05</p>
+                <div class="b-body">
+                  <h2>Skills</h2>
+                  <dl class="b-skills">
+                    {resume.skills.map((s) => (
+                      <div>
+                        <dt class="b-app">{s.name}</dt>
+                        <dd>{s.keywords.join(" · ")}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              </section>
+
+              <section class="b-sec">
+                <p class="b-num">06</p>
+                <div class="b-body">
+                  <h2>Education</h2>
+                  <p>
+                    <b>{education!.studyType}</b>, {education!.institution}, {education!.location}.{" "}
+                    {education!.custom.detail}.
+                  </p>
+                </div>
+              </section>
+            </>
+          )}
+
+          <footer class="b-strip" data-foot>
+            <span>
+              <b>{basics.name}</b>
+            </span>
+            <span>Resume</span>
+            <span>Updated {updated(true)}</span>
+            <span>
+              Sheet {sheetIndex + 1} of {sheets.length}
+            </span>
+          </footer>
+        </div>
+      </section>
+    ))
+  }
+</div>
+
+<style>
+  .b {
+    --b-ink: #13324e;
+    --b-body: #44546a;
+    --b-muted: #6b6455;
+    --b-accent: #a8541a;
+    --b-rule: #e2d8c6;
+    --b-tint: #f7f0e1;
+    --b-dot: #e6dccb;
+    font-family: var(--font-body);
+    color: var(--b-body);
+    font-size: 8pt;
+    line-height: 1.4;
+    /* Instrument Sans has a narrow space, which PDF text extractors miss. */
+    word-spacing: 0.04em;
+  }
+
+  /* The corner marks are background strokes, so nothing on the sheet is positioned. */
+  .b-sheet {
+    padding: 8mm;
+    background:
+      linear-gradient(var(--b-ink), var(--b-ink)) 5.5mm 5.5mm / 5mm 0.25mm no-repeat,
+      linear-gradient(var(--b-ink), var(--b-ink)) 5.5mm 5.5mm / 0.25mm 5mm no-repeat,
+      linear-gradient(var(--b-ink), var(--b-ink)) right 5.5mm bottom 5.5mm / 5mm 0.25mm no-repeat,
+      linear-gradient(var(--b-ink), var(--b-ink)) right 5.5mm bottom 5.5mm / 0.25mm 5mm no-repeat,
+      #fff;
+  }
+
+  .b-frame {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 5mm 7mm 0;
+    border: 0.25mm solid var(--b-ink);
+  }
+
+  .b-app {
+    font-family: var(--font-mono);
+    font-size: 6.6pt;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--b-muted);
+  }
+
+  /* ------------------------------------------------------------ title area */
+
+  .b-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 64mm;
+    gap: 6mm;
+    align-items: end;
+    margin: -5mm -7mm 0;
+    padding: 4.5mm 7mm 3.5mm;
+    border-bottom: 0.25mm solid var(--b-ink);
+    background-image: radial-gradient(circle, var(--b-dot) 0.28mm, transparent 0.34mm);
+    background-size: 4mm 4mm;
+    background-position: 2mm 2mm;
+  }
+
+  .b-head h1 {
+    margin-top: 2mm;
+    color: var(--b-ink);
+    font-family: var(--font-display);
+    font-size: 30pt;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .b-role {
+    margin-top: 2.4mm;
+    color: var(--b-ink);
+    font-size: 12pt;
+    font-weight: 600;
+  }
+
+  .b-headline {
+    margin-top: 1.2mm;
+    font-family: var(--font-mono);
+    font-size: 6.1pt;
+    word-spacing: normal;
+    color: var(--b-muted);
+  }
+
+  .b-block {
+    border: 0.25mm solid var(--b-ink);
+    background: #fff;
+  }
+
+  .b-block > div {
+    display: grid;
+    grid-template-columns: 17mm minmax(0, 1fr);
+  }
+
+  .b-block > div + div {
+    border-top: 0.2mm solid var(--b-rule);
+  }
+
+  .b-block dt {
+    padding: 0.9mm 2mm;
+    border-right: 0.2mm solid var(--b-rule);
+    background: var(--b-tint);
+    font-family: var(--font-mono);
+    font-size: 6.2pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--b-muted);
+  }
+
+  .b-block dd {
+    padding: 0.9mm 2mm;
+    color: var(--b-ink);
+    font-size: 7.6pt;
+    font-weight: 500;
+  }
+
+  .b-block .b-updated {
+    border-top: 0.25mm solid var(--b-ink);
+  }
+
+  .b-updated dd {
+    font-weight: 600;
+  }
+
+  /* -------------------------------------------------------------- sections */
+
+  .b-sec {
+    display: grid;
+    grid-template-columns: 19mm minmax(0, 1fr);
+    gap: 0 4mm;
+    padding-top: 2.6mm;
+  }
+
+  .b-num {
+    padding-top: 0.6mm;
+    font-family: var(--font-mono);
+    font-size: 9pt;
+    font-weight: 500;
+    color: var(--b-accent);
+  }
+
+  .b-body h2 {
+    margin-bottom: 1.3mm;
+    padding-bottom: 1mm;
+    border-bottom: 0.25mm solid var(--b-ink);
+    color: var(--b-ink);
+    font-family: var(--font-display);
+    font-size: 11.5pt;
+    font-weight: 700;
+    letter-spacing: -0.005em;
+  }
+
+  .b-profile p + p {
+    margin-top: 1.4mm;
+  }
+
+  .b-profile p:first-child {
+    color: var(--b-ink);
+    font-size: 8.8pt;
+  }
+
+  .b-avail {
+    padding-left: 2.4mm;
+    border-left: 0.6mm solid var(--b-accent);
+    color: var(--b-ink);
+    font-weight: 600;
+  }
+
+  .b-schedule {
+    padding: 0;
+    list-style: none;
+  }
+
+  .b-schedule li {
+    display: grid;
+    grid-template-columns: 6mm minmax(0, 1fr) 46mm;
+    gap: 0 4mm;
+    padding: 1.2mm 0;
+    border-bottom: 0.2mm solid var(--b-rule);
+  }
+
+  .b-schedule li:first-child {
+    padding-top: 0;
+  }
+
+  .b-item {
+    padding-top: 0.5mm;
+    font-family: var(--font-mono);
+    font-size: 7.4pt;
+    color: var(--b-accent);
+  }
+
+  .b-schedule h3 {
+    color: var(--b-ink);
+    font-size: 9pt;
+    font-weight: 700;
+  }
+
+  .b-status {
+    padding-left: 3mm;
+    border-left: 0.2mm solid var(--b-rule);
+    color: var(--b-ink);
+    font-size: 7.3pt;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .b-stack {
+    margin-top: 0.8mm;
+    font-family: var(--font-mono);
+    font-size: 6.4pt;
+    font-weight: 400;
+    color: var(--b-muted);
+  }
+
+  .b-job {
+    padding-top: 2mm;
+  }
+
+  .b-when {
+    padding-top: 0.5mm;
+    font-family: var(--font-mono);
+    font-size: 6.3pt;
+    line-height: 1.5;
+    color: var(--b-ink);
+  }
+
+  .b-when span {
+    display: block;
+    margin-top: 0.6mm;
+    color: var(--b-muted);
+  }
+
+  .b-job h3 {
+    color: var(--b-ink);
+    font-size: 9pt;
+    font-weight: 700;
+  }
+
+  .b-org {
+    color: var(--b-accent);
+    font-weight: 600;
+  }
+
+  .b-job h3 + p {
+    margin-top: 0.6mm;
+  }
+
+  .b-points {
+    margin-top: 0.8mm;
+    padding: 0;
+    list-style: none;
+  }
+
+  .b-points li {
+    display: grid;
+    grid-template-columns: 3.6mm minmax(0, 1fr);
+  }
+
+  .b-points li + li {
+    margin-top: 0.4mm;
+  }
+
+  .b-points li::before {
+    content: "";
+    width: 2mm;
+    height: 0;
+    margin-top: 2.1mm;
+    border-top: 0.25mm solid var(--b-accent);
+  }
+
+  .b-certs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.4mm 6mm;
+  }
+
+  .b-certs h3 {
+    margin-bottom: 0.6mm;
+    color: var(--b-accent);
+  }
+
+  .b-certs ul {
+    padding: 0;
+    list-style: none;
+    color: var(--b-ink);
+  }
+
+  .b-certs li span {
+    font-family: var(--font-mono);
+    font-size: 6.6pt;
+    color: var(--b-muted);
+  }
+
+  .b-skills > div {
+    display: grid;
+    grid-template-columns: 34mm minmax(0, 1fr);
+    gap: 0 3mm;
+    padding: 1.1mm 0;
+    border-bottom: 0.2mm solid var(--b-rule);
+  }
+
+  .b-skills > div:first-child {
+    padding-top: 0;
+  }
+
+  .b-skills dt {
+    padding-top: 0.4mm;
+  }
+
+  .b-skills dd {
+    color: var(--b-ink);
+  }
+
+  /* ----------------------------------------------------------- title strip */
+
+  .b-strip {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr 0.8fr;
+    margin: auto -7mm 0;
+    border-top: 0.25mm solid var(--b-ink);
+    font-family: var(--font-mono);
+    font-size: 6.4pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--b-muted);
+  }
+
+  .b-strip span {
+    padding: 1.8mm 3mm;
+  }
+
+  .b-strip span + span {
+    border-left: 0.2mm solid var(--b-rule);
+  }
+
+  .b-strip b {
+    color: var(--b-ink);
+    font-weight: 500;
+  }
+</style>

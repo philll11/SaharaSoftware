@@ -37,7 +37,10 @@ if (isPrivate) {
 }
 
 const server = await preview({ outDir, logLevel: "warn" });
-const browser = await chromium.launch();
+// Chromium on Linux hints glyph advances by default, which places a PDF's letters
+// unevenly enough that text extractors split words ("s aharas oftware"). Without
+// hinting the text sets as it does on Windows and macOS.
+const browser = await chromium.launch({ args: ["--font-render-hinting=none"] });
 try {
   for (const { page: pagePath, out } of targets) {
     const page = await browser.newPage();

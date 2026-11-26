@@ -9,7 +9,7 @@ interface Props {
 const { number = "1", class: className } = Astro.props;
 
 const label =
-  "The developer shapes a design preview and the AI agent writes to it. The preview becomes a typed spec, the compiler turns it into Boomi's format and checks it against the team's handbook, and a person confirms before anything reaches the live Boomi account.";
+  "The AI agent works from the team's handbook. The developer shapes a design preview and the agent writes to it. The preview becomes a typed spec, the compiler turns it into Boomi's format and checks it against the handbook, and a person confirms before anything reaches the live Boomi account.";
 
 // Arrowheads as small paths rather than SVG markers, so the drawing needs no
 // ids and could appear more than once on a page.
@@ -23,22 +23,31 @@ const up = (x: number, y: number) => `M${x},${y} l-4.5,8 l9,0 z`;
   <div class="drawn fig-sheet">
     <svg class="dwg only-wide" viewBox="0 0 640 396" role="img" aria-label={label}>
       <rect class="box" x="16" y="20" width="184" height="64" rx="3"></rect>
-      <text class="t-name" x="32" y="47">Developer</text>
-      <text class="t-sub" x="32" y="68">shapes the design</text>
+      <text class="t-name" x="32" y="47">AI agent</text>
+      <text class="t-sub" x="32" y="68">Claude Code, Copilot</text>
       <path class="wire" d="M108,84 V156"></path>
       <path class="arrow" d={down(108, 164)}></path>
-      <text class="t-wire" x="118" y="128">shapes it</text>
+      <text class="t-wire" x="118" y="128">writes to it</text>
 
       <rect class="box-soft" x="16" y="164" width="184" height="64" rx="3"></rect>
       <text class="t-name" x="32" y="191">Design preview</text>
       <text class="t-sub" x="32" y="212">one picture for both</text>
 
       <rect class="box" x="16" y="316" width="184" height="64" rx="3"></rect>
-      <text class="t-name" x="32" y="343">AI agent</text>
-      <text class="t-sub" x="32" y="364">Claude Code, Copilot</text>
+      <text class="t-name" x="32" y="343">Developer</text>
+      <text class="t-sub" x="32" y="364">shapes the design</text>
       <path class="wire" d="M108,316 V236"></path>
       <path class="arrow" d={up(108, 228)}></path>
-      <text class="t-wire" x="118" y="276">writes to it</text>
+      <text class="t-wire" x="118" y="276">shapes it</text>
+
+      <rect class="box" x="240" y="20" width="160" height="64" rx="3"></rect>
+      <text class="t-name" x="256" y="47">Handbook</text>
+      <text class="t-sub" x="256" y="68">the team's rules</text>
+      <path class="wire" d="M240,52 H208"></path>
+      <path class="arrow" d={left(200, 52)}></path>
+      <path class="wire" d="M400,52 H532 V156"></path>
+      <path class="arrow" d={down(532, 164)}></path>
+      <text class="t-wire" x="522" y="128" text-anchor="end">checked against</text>
 
       <path class="wire" d="M200,196 H232"></path>
       <path class="arrow" d={right(240, 196)}></path>
@@ -47,13 +56,6 @@ const up = (x: number, y: number) => `M${x},${y} l-4.5,8 l9,0 z`;
       <text class="t-sub" x="256" y="212">published schema</text>
       <path class="wire" d="M400,196 H432"></path>
       <path class="arrow" d={right(440, 196)}></path>
-
-      <rect class="box" x="440" y="20" width="184" height="64" rx="3"></rect>
-      <text class="t-name" x="456" y="47">Handbook</text>
-      <text class="t-sub" x="456" y="68">the team's rules</text>
-      <path class="wire" d="M532,84 V156"></path>
-      <path class="arrow" d={down(532, 164)}></path>
-      <text class="t-wire" x="522" y="128" text-anchor="end">checked against</text>
 
       <rect class="box" x="440" y="164" width="184" height="64" rx="3"></rect>
       <text class="t-name" x="456" y="191">Compiler</text>
@@ -77,62 +79,65 @@ const up = (x: number, y: number) => `M${x},${y} l-4.5,8 l9,0 z`;
       <text class="t-hand" x="468" y="284" text-anchor="end">until a person says yes</text>
     </svg>
 
-    <svg class="dwg only-narrow" viewBox="0 0 360 572" role="img" aria-label={label}>
+    <svg class="dwg only-narrow" viewBox="0 0 360 668" role="img" aria-label={label}>
       <rect class="box" x="8" y="8" width="160" height="60" rx="3"></rect>
       <text class="t-name" x="22" y="33">Developer</text>
       <text class="t-sub" x="22" y="53">shapes the design</text>
+      <path class="wire" d="M88,68 V208"></path>
+      <path class="arrow" d={down(88, 216)}></path>
+      <text class="t-wire" x="96" y="146">shapes it</text>
+
       <rect class="box" x="192" y="8" width="160" height="60" rx="3"></rect>
-      <text class="t-name" x="206" y="33">AI agent</text>
-      <text class="t-sub" x="206" y="53">Claude, Copilot</text>
+      <text class="t-name" x="206" y="33">Handbook</text>
+      <text class="t-sub" x="206" y="53">the team's rules</text>
+      <path class="wire" d="M261,68 V104"></path>
+      <path class="arrow" d={down(261, 112)}></path>
+      <path class="wire" d="M344,68 V446 H212"></path>
+      <path class="arrow" d={left(204, 446)}></path>
+      <text class="t-wire" x="220" y="436">checked against</text>
 
-      <path class="wire" d="M88,68 V112"></path>
-      <path class="arrow" d={down(88, 120)}></path>
-      <text class="t-wire" x="96" y="98">shapes it</text>
-      <path class="wire" d="M272,68 V112"></path>
-      <path class="arrow" d={down(272, 120)}></path>
-      <text class="t-wire" x="280" y="98">writes</text>
+      <rect class="box" x="192" y="112" width="138" height="60" rx="3"></rect>
+      <text class="t-name" x="206" y="137">AI agent</text>
+      <text class="t-sub" x="206" y="157">Claude, Copilot</text>
+      <path class="wire" d="M261,172 V208"></path>
+      <path class="arrow" d={down(261, 216)}></path>
+      <text class="t-wire" x="269" y="196">writes</text>
 
-      <rect class="box-soft" x="8" y="120" width="344" height="60" rx="3"></rect>
-      <text class="t-name" x="22" y="145">Design preview</text>
-      <text class="t-sub" x="22" y="165">one picture for both</text>
+      <rect class="box-soft" x="8" y="216" width="322" height="60" rx="3"></rect>
+      <text class="t-name" x="22" y="241">Design preview</text>
+      <text class="t-sub" x="22" y="261">one picture for both</text>
 
-      <path class="wire" d="M100,180 V212"></path>
-      <path class="arrow" d={down(100, 220)}></path>
+      <path class="wire" d="M100,276 V308"></path>
+      <path class="arrow" d={down(100, 316)}></path>
 
-      <rect class="box" x="8" y="220" width="344" height="60" rx="3"></rect>
-      <text class="t-name" x="22" y="245">Typed spec</text>
-      <text class="t-sub" x="22" y="265">published schema</text>
+      <rect class="box" x="8" y="316" width="322" height="60" rx="3"></rect>
+      <text class="t-name" x="22" y="341">Typed spec</text>
+      <text class="t-sub" x="22" y="361">published schema</text>
 
-      <path class="wire" d="M100,280 V312"></path>
-      <path class="arrow" d={down(100, 320)}></path>
+      <path class="wire" d="M100,376 V408"></path>
+      <path class="arrow" d={down(100, 416)}></path>
 
-      <rect class="box" x="8" y="320" width="196" height="60" rx="3"></rect>
-      <text class="t-name" x="22" y="345">Compiler</text>
-      <text class="t-sub" x="22" y="365">same spec, same XML</text>
-      <path class="red" d="M182,310 l7,8 l13,-17"></path>
+      <rect class="box" x="8" y="416" width="196" height="60" rx="3"></rect>
+      <text class="t-name" x="22" y="441">Compiler</text>
+      <text class="t-sub" x="22" y="461">same spec, same XML</text>
+      <path class="red" d="M182,406 l7,8 l13,-17"></path>
 
-      <rect class="box" x="236" y="320" width="116" height="60" rx="3"></rect>
-      <text class="t-name" x="250" y="345">Handbook</text>
-      <text class="t-sub" x="250" y="365">team rules</text>
-      <path class="wire" d="M236,350 H212"></path>
-      <path class="arrow" d={left(204, 350)}></path>
+      <path class="wire" d="M100,476 V503"></path>
+      <path class="arrow" d={down(100, 511)}></path>
+      <path class="gate" d="M100,511 L113,524 L100,537 L87,524 Z"></path>
+      <path class="wire" d="M100,537 V572"></path>
+      <path class="arrow" d={down(100, 580)}></path>
 
-      <path class="wire" d="M100,380 V407"></path>
-      <path class="arrow" d={down(100, 415)}></path>
-      <path class="gate" d="M100,415 L113,428 L100,441 L87,428 Z"></path>
-      <path class="wire" d="M100,441 V476"></path>
-      <path class="arrow" d={down(100, 484)}></path>
+      <rect class="box" x="8" y="580" width="196" height="60" rx="3"></rect>
+      <text class="t-name" x="22" y="605">Boomi</text>
+      <text class="t-sub" x="22" y="625">live account</text>
 
-      <rect class="box" x="8" y="484" width="196" height="60" rx="3"></rect>
-      <text class="t-name" x="22" y="509">Boomi</text>
-      <text class="t-sub" x="22" y="529">live account</text>
-
-      <path class="red" d="M82,410 C94,396 124,399 129,421 C133,443 114,457 96,454 C77,451 67,436 71,421 C74,411 83,404 95,402"></path>
-      <path class="red" d="M132,424 C150,420 164,418 178,418"></path>
-      <path class="red" d="M132,424 l8,-6 M132,424 l9,4"></path>
-      <text class="t-hand" x="184" y="414">nothing goes live</text>
-      <text class="t-hand" x="184" y="436">until a person</text>
-      <text class="t-hand" x="184" y="458">says yes</text>
+      <path class="red" d="M82,506 C94,492 124,495 129,517 C133,539 114,553 96,550 C77,547 67,532 71,517 C74,507 83,500 95,498"></path>
+      <path class="red" d="M132,520 C150,516 164,514 178,514"></path>
+      <path class="red" d="M132,520 l8,-6 M132,520 l9,4"></path>
+      <text class="t-hand" x="184" y="510">nothing goes live</text>
+      <text class="t-hand" x="184" y="532">until a person</text>
+      <text class="t-hand" x="184" y="554">says yes</text>
     </svg>
   </div>
   <figcaption class="fig-caption">

@@ -8,10 +8,9 @@
 //
 // It stops with an error when a page logs one (a CSP violation among them) or
 // when a sheet is nearly full: every [data-fit] box must keep MIN_SPARE_MM free
-// below its content, or above its [data-foot] furniture. Chromium sets text a
-// little differently on Linux, Windows and macOS, so a sheet that only just
-// fits on one can overflow on another. Move the page split in the design, or
-// tighten its spacing, when a sheet runs short.
+// below its content, or above its [data-foot] furniture, so a small difference
+// in how another Chromium version sets text cannot push a line off a sheet.
+// Move the page split in the design, or tighten its spacing, when a sheet runs short.
 import { mkdtemp, rm } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
 import path from "node:path";

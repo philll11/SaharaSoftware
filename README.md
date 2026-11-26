@@ -54,7 +54,7 @@ A second design with a photo is private: `pnpm resume` builds it into a temporar
 
 To change the resume, edit `src/data/resume.json` (or a case study's `resume` front matter for Selected work) and set `meta.lastModified` to the day, which the resume shows as "Updated".
 Each design fixes where page 2 begins (`SHEET_TWO_FROM`, `PAGE_TWO`).
-Every sheet keeps at least 4 mm free, because Chromium sets text a little differently on Linux, Windows and macOS; the build prints the tightest sheet's spare room, and stops when a sheet runs short.
+Every sheet keeps at least 4 mm free, so a small difference in how another Chromium version sets text cannot push a line off a sheet; the build prints the tightest sheet's spare room, and stops when a sheet runs short.
 Then move the split or tighten the design's spacing.
 
 ## Deploying

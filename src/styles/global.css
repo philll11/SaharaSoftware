@@ -792,7 +792,6 @@ pre[class*="language-"], .prose pre {
 
 @media (max-width: 1040px) {
   .hero-inner { grid-template-columns: minmax(0, 1fr); gap: 40px; }
-  .case-layout { grid-template-columns: minmax(0, 1fr); gap: 40px; }
 }
 
 @media (max-width: 900px) {
@@ -1259,7 +1258,9 @@ pre[class*="language-"], .prose pre {
 .case-next-link:hover { color: var(--accent); }
 .case-next-link span { display: block; font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: var(--muted); margin-bottom: 4px; }
 
+/* After the base rules above, which would otherwise win at every width. */
 @media (max-width: 1040px) {
+  .case-layout { grid-template-columns: minmax(0, 1fr); gap: 40px; }
   .case-intro { grid-template-columns: minmax(0, 1fr); }
   .titleblock { max-width: 560px; }
   .case-next { position: static; }

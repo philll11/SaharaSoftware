@@ -39,6 +39,15 @@ for (const scheme of ["light", "dark"] as const) {
         const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
         expect(overflow, "no horizontal scroll").toBeLessThanOrEqual(0);
 
+        // A column squeezed by the grid beside it wraps text a word at a time
+        // without scrolling sideways, so headings and body text must keep a readable width.
+        const squeezed = await page.evaluate(() =>
+          [...document.querySelectorAll("main h2:not(.visually-hidden), main .prose > p")]
+            .filter((el) => el.checkVisibility() && el.getBoundingClientRect().width < 120)
+            .map((el) => `${el.tagName.toLowerCase()} "${el.textContent?.trim().slice(0, 30)}" ${Math.round(el.getBoundingClientRect().width)}px`),
+        );
+        expect(squeezed, "headings and body text keep a readable width").toEqual([]);
+
         // Lazy images below the fold load once scrolled into view.
         await page.evaluate(async () => {
           for (const img of document.images) {

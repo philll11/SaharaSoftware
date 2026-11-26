@@ -15,6 +15,8 @@ const work = defineCollection({
       summary: z.string(),
       /** The shorter text on the homepage card. */
       card: z.string(),
+      /** The project's entry under Selected work on the resume: one sentence and a short stack. */
+      resume: z.object({ line: z.string(), stack: z.array(z.string()).min(1) }),
       /** The page's meta description. */
       description: z.string(),
       /** Position on the homepage and in the footer. */

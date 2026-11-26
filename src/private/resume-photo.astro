@@ -1,0 +1,12 @@
+---
+// The private resume's print page. It lives outside src/pages: astro.config.ts
+// injects it as /resume/photo only when RESUME_PRIVATE=1, so a public build
+// never reads it, its photo or its typeface.
+import Print from "../layouts/Print.astro";
+import PhotoResume from "../components/resume/PhotoResume.astro";
+import { resume } from "../resume";
+---
+
+<Print title={`${resume.basics.name}, Resume`} raleway>
+  <PhotoResume />
+</Print>

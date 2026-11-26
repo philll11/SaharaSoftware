@@ -1,0 +1,142 @@
+{
+  "meta": {
+    "lastModified": "2026-11-26T00:00:00"
+  },
+  "basics": {
+    "name": "Leonard Phillips",
+    "label": "AI and integration engineer",
+    "email": "leonard@saharasoftware.co.nz",
+    "url": "https://www.saharasoftware.co.nz",
+    "summary": "I build plugins and skills that let AI coding agents like Claude Code and GitHub Copilot work reliably on real business systems, with automatic checks on everything they produce and a person signing off anything that cannot be undone.\n\nBehind that sit seven years of connecting the systems businesses run on: NetSuite development in New Zealand, integration consulting in the Netherlands, and AI-built platforms for Boomi as a sole trader.",
+    "location": { "region": "New Zealand", "countryCode": "NZ" },
+    "profiles": [
+      { "network": "LinkedIn", "username": "leonard-phillips", "url": "https://www.linkedin.com/in/leonard-phillips" },
+      { "network": "GitHub", "username": "philll11", "url": "https://github.com/philll11" }
+    ],
+    "custom": {
+      "business": "Sahara Software",
+      "headline": "AI agent plugins and integrations · Claude Code and GitHub Copilot · Boomi, NetSuite",
+      "availability": "Open to contract and permanent roles in AI and integration engineering, remote from New Zealand."
+    }
+  },
+  "work": [
+    {
+      "name": "Sahara Software",
+      "position": "Sole trader, AI and integration engineer",
+      "location": "New Zealand, remote",
+      "startDate": "2026-06",
+      "summary": "My own business, for clients in New Zealand and Australia. On contract to a large European construction company, working remotely from New Zealand. Across this engagement and my earlier secondment there, with LLMs doing much of the coding and my own design, checks and approval around it:",
+      "highlights": [
+        "Built Testify, an automated regression testing platform for Boomi, live in production.",
+        "Built Fathom, a plugin for Claude Code and GitHub Copilot CLI, with its own skills, hooks and toolchain, that lets AI agents build Boomi integrations safely. The client's integration developers use it for their integration work.",
+        "Designed a monitoring platform for Boomi in the client's own Azure, on OpenTelemetry and Grafana and defined entirely as code, in development and validated end to end in a sandbox.",
+        "Built agent-dashboard, an open-source dashboard for the usage, cost and plan limits of Claude Code and GitHub Copilot."
+      ],
+      "custom": {
+        "resumeSummary": "My own business, for clients in New Zealand and Australia. On contract to a large European construction company, with LLMs doing much of the coding and my own design, checks and approval around it:",
+        "resumeHighlights": [
+          "Built Testify, live in production, and Fathom, which the client's integration developers use for their integration work. Both are described under Selected work.",
+          "Designed a monitoring platform for Boomi in the client's own Azure, on OpenTelemetry and Grafana and defined entirely as code, in development and validated end to end in a sandbox."
+        ]
+      }
+    },
+    {
+      "name": "Emixa",
+      "position": "Integration Consultant",
+      "location": "Netherlands",
+      "startDate": "2023-10",
+      "endDate": "2026-05",
+      "summary": "Seconded to a large European construction company from January 2024, working with Boomi, Solace, Azure API Management, Salesforce and ServiceNow.",
+      "highlights": [
+        "Designed RESTful APIs with OpenAPI v3 in Azure API Management, secured with OAuth 2.0 and backed by Boomi, that gave third-party applications controlled access to residential construction data that security policy barred them from reaching directly.",
+        "Designed a JSON-RPC 2.0 API with a Boomi backend, decoupled so that a new remote procedure needs no redeployment of the API or the backend.",
+        "Designed an event-driven integration that carries ServiceNow changes to three other systems, with a routing layer that mimics Solace, so only that layer changes when Solace goes live.",
+        "Designed a decoupled logging framework in Boomi, so a logging failure never stops the business process it records.",
+        "Became lead maintainer of the open-source Solace Queue Message Viewer, a Solace-managed repository, and demoed it as a guest speaker at the Solace Community lightning talks in January 2025."
+      ]
+    },
+    {
+      "type": "career-break",
+      "location": "Europe",
+      "startDate": "2023-06",
+      "endDate": "2023-09",
+      "summary": "Travelled Europe in a van called Vincent."
+    },
+    {
+      "name": "Datacom",
+      "position": "Principal Engineer, ERP and Integration",
+      "location": "Auckland, New Zealand",
+      "startDate": "2022-10",
+      "endDate": "2023-06",
+      "highlights": [
+        "Technical lead on implementation and customisation projects across the business, including Peppol e-invoicing for accounts payable and receivable, an Oracle Fusion HCM implementation, and a custom memorised-transaction solution for a new productised service."
+      ]
+    },
+    {
+      "name": "Datacom",
+      "position": "Senior Engineer, ERP and Integration",
+      "location": "Auckland, New Zealand",
+      "startDate": "2021-09",
+      "endDate": "2022-09",
+      "highlights": [
+        "Connected Datacom's internal business systems with Boomi, through the Oracle HCM, NetSuite and Activate APIs, with pagination for large extracts and PGP encryption for sensitive data.",
+        "Customised NetSuite where an integration met its limits, with SuiteScript, workflows and saved searches."
+      ]
+    },
+    {
+      "name": "Archant",
+      "position": "NetSuite Developer and Administrator",
+      "location": "Hawke's Bay, New Zealand",
+      "startDate": "2021-01",
+      "endDate": "2021-09",
+      "highlights": [
+        "Built the shipping integration that connects NetSuite order fulfilment to Mainfreight's distribution platform.",
+        "Project-managed a Magento 2 e-commerce deployment integrated with NetSuite.",
+        "Built a purchase order and expense approval workflow with delegated financial authority limits and a multi-level hierarchy.",
+        "Implemented inbound shipments for more accurate arrival dates and cash-flow forecasting."
+      ]
+    },
+    {
+      "name": "Datacom",
+      "position": "NetSuite Technical Analyst",
+      "location": "Auckland, New Zealand",
+      "startDate": "2019-10",
+      "endDate": "2021-01",
+      "highlights": [
+        "Built an automated billing schedule that invoices 2,500 customers at month-end.",
+        "Built an accounts-payable tool that sends payment files from NetSuite to a bank over SFTP.",
+        "Built a purchase requisition tool for Datacom's employees."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Massey University",
+      "studyType": "Bachelor of Information Science",
+      "area": "Software engineering",
+      "location": "New Zealand",
+      "custom": { "detail": "Major in software engineering, minor in data science" }
+    }
+  ],
+  "certificates": [
+    { "name": "Solutions Architect", "issuer": "Solace", "date": "2023-10" },
+    { "name": "Event Driven Architecture Practitioner", "issuer": "Solace", "date": "2023-10" },
+    { "name": "Professional Integration Developer", "issuer": "Boomi" },
+    { "name": "Associate Integration Developer", "issuer": "Boomi" },
+    { "name": "Professional API Design", "issuer": "Boomi", "date": "2023-10" },
+    { "name": "Professional API Management", "issuer": "Boomi", "date": "2023-10" },
+    { "name": "Associate Master Data Hub", "issuer": "Boomi", "date": "2023-10" },
+    { "name": "Associate Administrator", "issuer": "Boomi", "date": "2022-01" },
+    { "name": "SuiteAnalytics User", "issuer": "NetSuite", "date": "2022-04" },
+    { "name": "SuiteCloud Developer II", "issuer": "NetSuite", "date": "2021-12" },
+    { "name": "Certified Administrator", "issuer": "NetSuite", "date": "2021-11" },
+    { "name": "SuiteFoundation", "issuer": "NetSuite" },
+    { "name": "Professional Scrum Master I", "issuer": "Scrum.org", "date": "2025-09" }
+  ],
+  "skills": [
+    { "name": "Building with AI", "keywords": ["Claude Code", "GitHub Copilot", "Agent plugins and skills", "Hooks and subagents", "MCP servers", "Generative AI"] },
+    { "name": "Integration", "keywords": ["Boomi", "NetSuite", "Oracle HCM", "Solace", "Event-driven architecture", "REST and SOAP APIs", "Azure API Management", "OAuth 2.0"] },
+    { "name": "Languages and frameworks", "keywords": ["TypeScript", "JavaScript", "Go", "Rust", "Python", "Groovy", "SuiteScript", "React", "NestJS", "PostgreSQL"] },
+    { "name": "Cloud and delivery", "keywords": ["Microsoft Azure", "Bicep", "Docker", "OpenTelemetry", "Grafana", "Azure DevOps", "GitHub Actions", "Test automation"] }
+  ]
+}

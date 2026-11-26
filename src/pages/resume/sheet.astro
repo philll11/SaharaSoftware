@@ -1,0 +1,11 @@
+---
+// The public resume's print page; scripts/print-resume.mjs prints it to
+// /leonard-phillips-resume.pdf. It stays out of the sitemap.
+import Print from "../../layouts/Print.astro";
+import SheetResume from "../../components/resume/SheetResume.astro";
+import { resume } from "../../resume";
+---
+
+<Print title={`${resume.basics.name}, Resume`}>
+  <SheetResume />
+</Print>

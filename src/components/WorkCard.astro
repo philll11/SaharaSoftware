@@ -16,10 +16,6 @@ const art: Record<string, { steps: string[]; label: string }> = {
     steps: ["Component", "The test that proves it", "Result on the exact revision"],
     label: "Each component linked to the test that proves it, and each result kept against the exact revision tested.",
   },
-  "solace-queue-message-viewer": {
-    steps: ["Messages Queued", "Find Messages", "Payload and properties, queue untouched"],
-    label: "From the broker console's queue tab, Find Messages shows each message's payload and properties without consuming it.",
-  },
 };
 const schematic = art[entry.id];
 ---
